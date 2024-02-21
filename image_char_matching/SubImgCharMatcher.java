@@ -74,24 +74,6 @@ public class SubImgCharMatcher {
         }
     }
 
-    private boolean updateMin(char c) {
-        if (charBrightnessMap.get(c) < charBrightnessMap.get(minCharBrightness) ||
-                minCharBrightness == Character.MAX_VALUE) {
-            minCharBrightness = c;
-            return true;
-        }
-        return false;
-    }
-
-    private boolean updateMax(char c) {
-        if (charBrightnessMap.get(c) > charBrightnessMap.get(maxCharBrightness) ||
-                maxCharBrightness == Character.MIN_VALUE) {
-            maxCharBrightness = c;
-            return true;
-        }
-        return false;
-    }
-
 
     /**
      * Removes a character from the character set used by the algorithm.
@@ -134,6 +116,24 @@ public class SubImgCharMatcher {
                 }
                 updateMin(ch);
             }
+            return true;
+        }
+        return false;
+    }
+
+    private boolean updateMin(char c) {
+        if (charBrightnessMap.get(c) < charBrightnessMap.get(minCharBrightness) ||
+                minCharBrightness == Character.MAX_VALUE) {
+            minCharBrightness = c;
+            return true;
+        }
+        return false;
+    }
+
+    private boolean updateMax(char c) {
+        if (charBrightnessMap.get(c) > charBrightnessMap.get(maxCharBrightness) ||
+                maxCharBrightness == Character.MIN_VALUE) {
+            maxCharBrightness = c;
             return true;
         }
         return false;
