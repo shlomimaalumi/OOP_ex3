@@ -1,4 +1,4 @@
-package art_ascii;
+package ascii_art;
 
 public class AsciiArtAlgorithm {
 
