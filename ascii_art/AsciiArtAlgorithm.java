@@ -9,7 +9,7 @@ import java.awt.*;
 import java.io.IOException;
 
 public class AsciiArtAlgorithm {
-    private static final String path = "examples/board.jpeg";
+    private static final String path = "examples/cat.jpeg";
 
     public char[][] run() throws IOException {
         float[][] brightnessArray = ImageOperations.greyBrightnessesByResolution(path,2);

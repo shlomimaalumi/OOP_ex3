@@ -3,6 +3,8 @@ package image;
 import java.awt.*;
 import java.io.IOException;
 
+import static java.awt.Color.WHITE;
+
 public class ImageOperations {
 
     private static final float RED_RATIO = 0.2126f;
@@ -33,8 +35,9 @@ public class ImageOperations {
     private static void addRows(Color[][] pixelArray, int height, int newHeight, int newWidth) {
         for (int i = 0; i < (newHeight - height) / 2; i++) {
             for (int j = 0; j < newWidth; j++) {
-                pixelArray[i][j] = new Color(Color.WHITE.getRGB());
-                pixelArray[newHeight - i - 1][j] = new Color(Color.WHITE.getRGB());
+                Color x = new Color(23,23,23);
+                pixelArray[i][j] = new Color(WHITE,WHITE,WHITE);
+                pixelArray[newHeight - i - 1][j] = new Color(WHITE,WHITE,WHITE);
             }
         }
     }
@@ -42,8 +45,8 @@ public class ImageOperations {
     private static void addCols(Color[][] pixelArray, int width, int newWidth, int newHeight) {
         for (int i = 0; i < (newWidth - width) / 2; i++) {
             for (int j = 0; j < newHeight; j++) {
-                pixelArray[j][i] = new Color(Color.WHITE.getRGB());
-                pixelArray[j][newWidth - j - 1] = new Color(Color.WHITE.getRGB());
+                pixelArray[j][i] = new Color(WHITE,WHITE,WHITE);
+                pixelArray[j][newWidth - j - 1] = new Color(WHITE,WHITE,WHITE);
             }
         }
     }
@@ -90,7 +93,7 @@ public class ImageOperations {
         for (int i = 0; i < image.getHeight(); i++) {
             for (int j = 0; j < image.getWidth(); j++) {
                 Color color = image.getPixel(i, j);
-                int red = color.getRed();
+                int red = ((Color) color).getRed();
                 int green = color.getGreen();
                 int blue = color.getBlue();
                 float greyVal = red * RED_RATIO + blue * BLUE_RATIO + green * GREEN_RATIO;
