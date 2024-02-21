@@ -130,8 +130,8 @@ public class SubImgCharMatcher {
     }
 
     private boolean updateMax(char c) {
-        if (charBrightnessMap.get(c) > charBrightnessMap.get(maxCharBrightness) ||
-                maxCharBrightness == Character.MIN_VALUE) {
+        if (maxCharBrightness == Character.MIN_VALUE ||
+                charBrightnessMap.get(c) > charBrightnessMap.get(maxCharBrightness) ){
             maxCharBrightness = c;
             return true;
         }

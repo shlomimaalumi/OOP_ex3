@@ -11,6 +11,8 @@ public class ImageOperations {
     private static final float GREEN_RATIO = 0.7152f;
     private static final float BLUE_RATIO = 0.0722f;
     private static final float MAX_ASCII = 255;
+    private static final int WHITE= 255;
+
 
     public static float[][] greyBrightnessesByResolution(String ImagePath, int resolution) throws IOException {
         Image image;
