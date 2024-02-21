@@ -8,8 +8,8 @@ import java.util.HashMap;
 
 public class SubImgCharMatcher {
 
-    private final HashMap<char, float> charBrightnessMap;
-    private final HashMap<char, float> charBrightnessNormalMap;
+    private final HashMap<Character, Float> charBrightnessMap;
+    private final HashMap<Character, Float> charBrightnessNormalMap;
     private char minCharBrightness = Character.MAX_VALUE;
     private char maxCharBrightness = Character.MIN_VALUE;
 
@@ -20,8 +20,8 @@ public class SubImgCharMatcher {
      * @param charset an array of characters forming the character set for the algorithm.
      */
     public SubImgCharMatcher(char[] charset) {
-        this.charBrightnessMap = new HashMap<char, float>();
-        this.charBrightnessNormalMap = new HashMap<char, float>();
+        this.charBrightnessMap = new HashMap<Character, Float>();
+        this.charBrightnessNormalMap = new HashMap<Character, Float>();
         for (char c : charset) {
             charBrightnessMap.put(c, getCharBrightness(c));
             updateMin(c);
@@ -44,7 +44,7 @@ public class SubImgCharMatcher {
         }
         double minDis = Float.POSITIVE_INFINITY;
         char retVal = Character.MAX_VALUE;
-        for (Map.Entry<char, float> pair : charBrightnessNormalMap.entrySet()) {
+        for (Map.Entry<Character, Float> pair : charBrightnessNormalMap.entrySet()) {
             double curDis = Math.abs(pair.getValue() - brightness);
             if (curDis < minDis) {
                 minDis = curDis;
@@ -122,8 +122,7 @@ public class SubImgCharMatcher {
     }
 
     private boolean updateMin(char c) {
-        if (charBrightnessMap.get(c) < charBrightnessMap.get(minCharBrightness) ||
-                minCharBrightness == Character.MAX_VALUE) {
+        if (minCharBrightness == Character.MAX_VALUE || charBrightnessMap.get(c) < charBrightnessMap.get(minCharBrightness)) {
             minCharBrightness = c;
             return true;
         }
@@ -156,20 +155,19 @@ public class SubImgCharMatcher {
     }
 
     private float normalBrightness(char c) {
-        return getCharBrightness(c) - charBrightnessNormalMap.get(minCharBrightness) /
-                charBrightnessNormalMap.get(maxCharBrightness) -
-                charBrightnessNormalMap.get(minCharBrightness);
+        return (getCharBrightness(c) - getCharBrightness(minCharBrightness)) /
+                (getCharBrightness(maxCharBrightness) -  getCharBrightness(minCharBrightness));
 
     }
 
     private void updateNormalMap() {
-        for (Map.Entry<char, float> pair : charBrightnessNormalMap.entrySet()) {
+        for (Map.Entry<Character, Float> pair : charBrightnessNormalMap.entrySet()) {
             this.charBrightnessNormalMap.put(pair.getKey(), normalBrightness(pair.getKey()));
         }
     }
 
     private void initNormalMap() {
-        for (Map.Entry<char, float> pair : charBrightnessMap.entrySet()) {
+        for (Map.Entry<Character, Float> pair : charBrightnessMap.entrySet()) {
             this.charBrightnessNormalMap.put(pair.getKey(), normalBrightness(pair.getKey()));
         }
     }
