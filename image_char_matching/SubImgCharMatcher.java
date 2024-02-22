@@ -171,4 +171,6 @@ public class SubImgCharMatcher {
             this.charBrightnessNormalMap.put(pair.getKey(), normalBrightness(pair.getKey()));
         }
     }
+
+
 }
