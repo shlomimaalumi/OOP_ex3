@@ -47,8 +47,8 @@ public class ImageOperations {
     private static void addCols(Color[][] pixelArray, int width, int newWidth, int newHeight) {
         for (int i = 0; i < (newWidth - width) / 2; i++) {
             for (int j = 0; j < newHeight; j++) {
-                pixelArray[j][i] = new Color(WHITE,WHITE,WHITE);
-                pixelArray[j][newWidth - j - 1] = new Color(WHITE,WHITE,WHITE);
+                pixelArray[j][i] = new Color(WHITE, WHITE, WHITE);
+                pixelArray[j][newWidth - i - 1] = new Color(WHITE, WHITE, WHITE);
             }
         }
     }
@@ -73,6 +73,14 @@ public class ImageOperations {
         addRows(pixelArray, height, newHeight, newWidth);
         addCols(pixelArray, width, newWidth, newHeight);
         fillOriginalImage(image, pixelArray, width, newWidth, height, newHeight);
+        for (int i = 0; i < newHeight; i++) {
+            for (int j = 0; j < newWidth; j++) {
+                if (pixelArray[i][j]==null){
+                   int x=1;
+                }
+            }
+
+        }
         return new Image(pixelArray, newWidth, newHeight);
     }
 
@@ -83,6 +91,7 @@ public class ImageOperations {
         float[][] brightnessArray = new float[height][width];
         for (int i = 0; i < height; i++){
             for (int j=0; j< width;j++){
+//                System.out.println("now    i = "+i+ "j =" +j);
                 brightnessArray[i][j]=getImgBrightness(images[i][j]);
             }
         }
@@ -95,6 +104,7 @@ public class ImageOperations {
         for (int i = 0; i < image.getHeight(); i++) {
             for (int j = 0; j < image.getWidth(); j++) {
                 Color color = image.getPixel(i, j);
+//                System.out.println("-----i="+i +"   j="+j+"-----"); 192 320
                 int red = ((Color) color).getRed();
                 int green = color.getGreen();
                 int blue = color.getBlue();
