@@ -7,6 +7,8 @@ import ascii_output.HtmlAsciiOutput;
 import java.io.IOException;
 import java.util.List;
 
+//import static jdk.internal.org.jline.utils.Colors.s;
+
 public class Shell {
     private static final String OUTPUT_CONSOLE_COMMAND = "output console";
     private static final String OUTPUT_HTML_COMMAND = "output html";
@@ -17,12 +19,14 @@ public class Shell {
     private static final String PREFIX = ">>> ";
     private static final String ASCII_ART_COMMAND = "asciiArt";
     private static final String EXIT_COMMAND = "exit";
-    private static final String ADD_PREFIX = "add";
-    private static final String CHANGE_IMAGE_PREFIX = "image";
-    private static final String OUTPUT_PREFIX = "output";
+    private static final String ADD_PREFIX = "add ";
+    private static final String
+            CHANGE_IMAGE_PREFIX = "image ";
+    private static final String OUTPUT_PREFIX = "output ";
     private static final String RES_UP = "res up";
     private static final String RES_DOWN = "res down";
-    private static final String REMOVE_PREFIX = "remove";
+    private static final String REMOVE_PREFIX = "remove ";
+    private static final String RES_PREFIX = "res ";
 
 
     private static final int SINGLE_CHAR = 1;
@@ -51,6 +55,7 @@ public class Shell {
     private static final String RES_EXCEED_WIDTH = "Did not change resolution due to exceeding boundaries.";
     private static final String RES_UPDATE_MESSAGE = "Resolution set to ";
     private static final String IO_EXPECTION = "Did not execute due to problem with image file.";
+    private static final String INVALID_COMMAND = "Did not execute due to incorrect command.";
 
 
     private AsciiOutput output;
@@ -140,12 +145,17 @@ public class Shell {
             runRemovingCommand(command.split(SPACE_REGEX)[ATTER_REGEX]);
         } else if (command.startsWith(OUTPUT_PREFIX)) {
             System.out.println(INVALID_OUTPUT_REQUEST);
-        } else if (command.startsWith(OUTPUT_PREFIX)) {
+        } else if (command.startsWith(RES_PREFIX)) {
+            System.out.println(INVALID_RES_REQUEST);
+        } else if (command.startsWith(CHANGE_IMAGE_PREFIX)) {
             try {
-                alogithmparameters.updateImage(command.split(SPACE_REGEX)[ATTER_REGEX]));
-            } catch (IOException e){
+                alogithmparameters.updateImage(command.split(SPACE_REGEX)[ATTER_REGEX]);
+            } catch (IOException e) {
                 System.out.println(IO_EXPECTION);
             }
+        }
+        else{
+            System.out.println(INVALID_COMMAND);
         }
     }
 
