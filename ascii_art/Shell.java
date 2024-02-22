@@ -14,10 +14,11 @@ public class Shell {
     private static final String FONT = "Courier New";
 
 
-    private static final String PREFIX = ">>>";
+    private static final String PREFIX = ">>> ";
     private static final String ASCII_ART_COMMAND = "asciiArt";
     private static final String EXIT_COMMAND = "exit";
     private static final String ADD_PREFIX = "add";
+    private static final String CHANGE_IMAGE_PREFIX = "image";
     private static final String OUTPUT_PREFIX = "output";
     private static final String RES_UP = "res up";
     private static final String RES_DOWN = "res down";
@@ -49,6 +50,7 @@ public class Shell {
     private static final String INVALID_RES_REQUEST = "Did not change resolution due to incorrect format.";
     private static final String RES_EXCEED_WIDTH = "Did not change resolution due to exceeding boundaries.";
     private static final String RES_UPDATE_MESSAGE = "Resolution set to ";
+    private static final String IO_EXPECTION = "Did not execute due to problem with image file.";
 
 
     private AsciiOutput output;
@@ -63,50 +65,67 @@ public class Shell {
         while (true) {
             System.out.print(PREFIX);
             String command = KeyboardInput.readLine();
-
-            switch (command) {
-                case EXIT_COMMAND -> {
-                    return;
-                }
-                case RES_UP -> {
-                    //TODO check what to do if it passed the width
-                    if (!alogithmparameters.resUp()){
-                        System.out.println(RES_EXCEED_WIDTH);
-                    } else {
-                        System.out.println(RES_UPDATE_MESSAGE + alogithmparameters.getResolution());
-
-                    }
-                }
-                case RES_DOWN -> {
-                    alogithmparameters.resDown();
-                }
-                case OUTPUT_CONSOLE_COMMAND -> {
-                    output = new ConsoleAsciiOutput();
-                }
-                case OUTPUT_HTML_COMMAND -> {
-                    output = new HtmlAsciiOutput(OUTPUT_HTML_PATH, FONT);
-                }
-                case ASCII_ART_COMMAND -> {
-                    runAlgorithm(algorithm);
-                }
-                case CHARS -> {
-                    printAllCharsSorted();
-                }
-                default -> {
-                    runComplexCommand(command);
-                }
+            if (!handleCommand(command, algorithm)) {
+                break;
             }
         }
-
     }
 
-    public void printAllCharsSorted() {
+
+    private boolean handleCommand(String command, AsciiArtAlgorithm algorithm) {
+        switch (command) {
+            case EXIT_COMMAND -> {
+                return false;
+            }
+            case RES_UP -> {
+                handleResUp();
+            }
+            case RES_DOWN -> {
+                handleResDown();
+            }
+            case OUTPUT_CONSOLE_COMMAND -> {
+                output = new ConsoleAsciiOutput();
+            }
+            case OUTPUT_HTML_COMMAND -> {
+                output = new HtmlAsciiOutput(OUTPUT_HTML_PATH, FONT);
+            }
+            case ASCII_ART_COMMAND -> {
+                runAlgorithm(algorithm);
+            }
+            case CHARS -> {
+                printAllCharsSorted();
+            }
+            default -> {
+                runComplexCommand(command);
+            }
+        }
+        return true;
+    }
+
+
+    private void handleResDown() {
+        if (!alogithmparameters.resDown()) {
+            System.out.println(RES_EXCEED_WIDTH);
+        } else {
+            System.out.println(RES_UPDATE_MESSAGE + alogithmparameters.getResolution());
+        }
+    }
+
+    private void handleResUp() {
+        if (!alogithmparameters.resUp()) {
+            System.out.println(RES_EXCEED_WIDTH);
+        } else {
+            System.out.println(RES_UPDATE_MESSAGE + alogithmparameters.getResolution());
+        }
+    }
+
+    private void printAllCharsSorted() {
         List<Character> sortedList = alogithmparameters.getCharMatcher().GetAllKeysSorted();
 
         for (int i = 0; i < sortedList.size(); i++) {
             System.out.print(sortedList.get(i));
             if (i != sortedList.size() + LAST_INDEX) {
-                System.out.println(SPACE_CHAR);
+                System.out.print(SPACE_CHAR);
             }
         }
         System.out.println();
@@ -114,12 +133,19 @@ public class Shell {
 
 
     private void runComplexCommand(String command) {
+
         if (command.startsWith(ADD_PREFIX)) {
             runAddingCommand(command.split(SPACE_REGEX)[ATTER_REGEX]);
         } else if (command.startsWith(REMOVE_PREFIX)) {
-            runAddingCommand(command.split(SPACE_REGEX)[ATTER_REGEX]);
+            runRemovingCommand(command.split(SPACE_REGEX)[ATTER_REGEX]);
         } else if (command.startsWith(OUTPUT_PREFIX)) {
             System.out.println(INVALID_OUTPUT_REQUEST);
+        } else if (command.startsWith(OUTPUT_PREFIX)) {
+            try {
+                alogithmparameters.updateImage(command.split(SPACE_REGEX)[ATTER_REGEX]));
+            } catch (IOException e){
+                System.out.println(IO_EXPECTION);
+            }
         }
     }
 
@@ -154,6 +180,7 @@ public class Shell {
 
     private void runRemovingCommand(String s) {
         if (s.length() == SINGLE_CHAR) {
+            System.out.println("heree");
             alogithmparameters.getCharMatcher().removeChar(s.charAt(FIRST_INDEX));
         } else if (s.equals(ALL_CHARS)) {
             for (char c = SPACE_CHAR; c <= TILDA_CHAR; c++) {
@@ -196,3 +223,4 @@ public class Shell {
         }
     }
 }
+

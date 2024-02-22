@@ -93,7 +93,7 @@ public class SubImgCharMatcher {
      * @param c The character to be removed from the character map.
      */
     public void removeChar(char c) {
-        if (this.charBrightnessMap.containsKey(c)) {
+        if (!this.charBrightnessMap.containsKey(c)) {
             return;
         }
         this.charBrightnessNormalMap.remove(c);

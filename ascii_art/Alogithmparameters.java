@@ -7,6 +7,8 @@ import image_char_matching.SubImgCharMatcher;
 
 import java.io.IOException;
 
+import static java.lang.Math.max;
+
 public class Alogithmparameters {
     private static final char[] INIT_CHARS = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
     private static final String DEFAULT_PATH = "examples/cat.jpeg";
@@ -14,7 +16,6 @@ public class Alogithmparameters {
     private final SubImgCharMatcher charMatcher;
     private int resolution;
     private Image image;
-
 
 
     public Alogithmparameters() throws IOException {
@@ -28,6 +29,15 @@ public class Alogithmparameters {
 
     }
 
+//    private static int getNewWidth(int width) {
+//        int newWidth = 1;
+//        while (newWidth < width) {
+//            newWidth = newWidth << 1;
+//        }
+//        return newWidth;
+//    }
+
+
     private Image openImage(String path) throws IOException {
         Image image;
         try {
@@ -38,13 +48,20 @@ public class Alogithmparameters {
         return image;
     }
 
-    void resUp() {
-
+    boolean resUp() {
+        if (resolution * 2 > image.getWidth()) {
+            return false;
+        }
         resolution *= 2;
+        return true;
     }
 
-    void resDown() {
+    boolean resDown() {
+        if (resolution / 2 < max(1, image.getWidth() / image.getHeight())) {
+            return false;
+        }
         resolution /= 2;
+        return true;
     }
 
 
