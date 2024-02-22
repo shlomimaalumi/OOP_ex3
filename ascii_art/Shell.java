@@ -180,7 +180,6 @@ public class Shell {
 
     private void runRemovingCommand(String s) {
         if (s.length() == SINGLE_CHAR) {
-            System.out.println("heree");
             alogithmparameters.getCharMatcher().removeChar(s.charAt(FIRST_INDEX));
         } else if (s.equals(ALL_CHARS)) {
             for (char c = SPACE_CHAR; c <= TILDA_CHAR; c++) {
