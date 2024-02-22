@@ -1,17 +1,19 @@
 package image_char_matching;
 
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
+
 
 
 public class SubImgCharMatcher {
+
+    private static final char SPACE_CHAR = ' ';
+
 
     private final HashMap<Character, Float> charBrightnessMap;
     private final HashMap<Character, Float> charBrightnessNormalMap;
     private char minCharBrightness = Character.MAX_VALUE;
     private char maxCharBrightness = Character.MIN_VALUE;
+
 
 
     /**
@@ -74,6 +76,16 @@ public class SubImgCharMatcher {
         }
     }
 
+    public List<Character> GetAllKeysSorted() {
+
+        Set<Character> keySet = charBrightnessNormalMap.keySet();
+
+        List<Character> sortedList = new ArrayList<>(keySet);
+        Collections.sort(sortedList);
+
+        return sortedList;
+
+    }
 
     /**
      * Removes a character from the character set used by the algorithm.
@@ -131,7 +143,7 @@ public class SubImgCharMatcher {
 
     private boolean updateMax(char c) {
         if (maxCharBrightness == Character.MIN_VALUE ||
-                charBrightnessMap.get(c) > charBrightnessMap.get(maxCharBrightness) ){
+                charBrightnessMap.get(c) > charBrightnessMap.get(maxCharBrightness)) {
             maxCharBrightness = c;
             return true;
         }
@@ -156,7 +168,7 @@ public class SubImgCharMatcher {
 
     private float normalBrightness(char c) {
         return (getCharBrightness(c) - getCharBrightness(minCharBrightness)) /
-                (getCharBrightness(maxCharBrightness) -  getCharBrightness(minCharBrightness));
+                (getCharBrightness(maxCharBrightness) - getCharBrightness(minCharBrightness));
 
     }
 

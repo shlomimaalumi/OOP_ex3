@@ -1,9 +1,11 @@
-package image;
+package ascii_art;
+
+import image.Image;
 
 import java.awt.*;
 import java.io.IOException;
-
-import static java.awt.Color.WHITE;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ImageOperations {
 
@@ -11,19 +13,28 @@ public class ImageOperations {
     private static final float GREEN_RATIO = 0.7152f;
     private static final float BLUE_RATIO = 0.0722f;
     private static final float MAX_ASCII = 255;
-    private static final int WHITE= 255;
+    private static final int WHITE = 255;
+    private static final Map<Pair, float[][]> brightnessMap = new HashMap<>();
 
 
-    public static float[][] greyBrightnessesByResolution(String ImagePath, int resolution) throws IOException {
-        Image image;
-        try {
-            image = new Image(ImagePath);
-        } catch (IOException e) {
-            throw new IOException(e);
+    public static float[][] greyBrightnessesByResolution(Image image, int resolution) {
+//        Image image;
+//        try {
+//            image = new Image(ImagePath);
+//        } catch (IOException e) {
+//            throw new IOException(e);
+//        }
+        //todo CHECK IF RESOLUTION IS MORE THAN WIDTH
+        Pair imageVsResolution = new Pair(image, resolution);
+        if (brightnessMap.containsKey(imageVsResolution)) {
+            System.out.println("i know the answer");
+            return brightnessMap.get(imageVsResolution);
         }
         image = resize(image);
         Image[][] subImages = divideImage(image, resolution);
-        return getBrightnessArray(subImages);
+        float[][] brightnessArray = getBrightnessArray(subImages);
+        brightnessMap.put(imageVsResolution, brightnessArray);
+        return brightnessArray;
     }
 
     private static int findClosestPowerOf2(int num) {
@@ -37,9 +48,8 @@ public class ImageOperations {
     private static void addRows(Color[][] pixelArray, int height, int newHeight, int newWidth) {
         for (int i = 0; i < (newHeight - height) / 2; i++) {
             for (int j = 0; j < newWidth; j++) {
-                Color x = new Color(23,23,23);
-                pixelArray[i][j] = new Color(WHITE,WHITE,WHITE);
-                pixelArray[newHeight - i - 1][j] = new Color(WHITE,WHITE,WHITE);
+                pixelArray[i][j] = new Color(WHITE, WHITE, WHITE);
+                pixelArray[newHeight - i - 1][j] = new Color(WHITE, WHITE, WHITE);
             }
         }
     }
@@ -73,26 +83,19 @@ public class ImageOperations {
         addRows(pixelArray, height, newHeight, newWidth);
         addCols(pixelArray, width, newWidth, newHeight);
         fillOriginalImage(image, pixelArray, width, newWidth, height, newHeight);
-        for (int i = 0; i < newHeight; i++) {
-            for (int j = 0; j < newWidth; j++) {
-                if (pixelArray[i][j]==null){
-                   int x=1;
-                }
-            }
 
-        }
         return new Image(pixelArray, newWidth, newHeight);
     }
 
 
-    private static float[][] getBrightnessArray(Image[][] images){
+    private static float[][] getBrightnessArray(Image[][] images) {
         int height = images.length;
         int width = images[0].length;
         float[][] brightnessArray = new float[height][width];
-        for (int i = 0; i < height; i++){
-            for (int j=0; j< width;j++){
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
 //                System.out.println("now    i = "+i+ "j =" +j);
-                brightnessArray[i][j]=getImgBrightness(images[i][j]);
+                brightnessArray[i][j] = getImgBrightness(images[i][j]);
             }
         }
         return brightnessArray;
@@ -105,7 +108,7 @@ public class ImageOperations {
             for (int j = 0; j < image.getWidth(); j++) {
                 Color color = image.getPixel(i, j);
 //                System.out.println("-----i="+i +"   j="+j+"-----"); 192 320
-                int red = ((Color) color).getRed();
+                int red = color.getRed();
                 int green = color.getGreen();
                 int blue = color.getBlue();
                 float greyVal = red * RED_RATIO + blue * BLUE_RATIO + green * GREEN_RATIO;
@@ -137,5 +140,42 @@ public class ImageOperations {
             }
         }
         return new Image(pixelArray, resolutionSize, resolutionSize);
+    }
+
+    private static class Pair {
+        private static final int FIRST_PRIME = 17;
+        private static final int SECOND_PRIME = 31;
+        private final Image image;
+        private final int resolution;
+
+        Pair(Image image, int resolution) {
+            this.image = image;
+            this.resolution = resolution;
+        }
+
+        public Image getImage() {
+            return image;
+        }
+
+        public int getResolution() {
+            return resolution;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (!(obj instanceof Pair)) {
+                return false;
+            }
+            Pair other = (Pair) obj;
+            return image.equals(other.getImage()) && other.getResolution() == resolution;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = FIRST_PRIME;
+            result = SECOND_PRIME * result + image.hashCode();
+            result = SECOND_PRIME * result + resolution;
+            return result;
+        }
     }
 }

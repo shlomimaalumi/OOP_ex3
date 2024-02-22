@@ -9,17 +9,39 @@ import java.util.Set;
 import ascii_output.ConsoleAsciiOutput;
 import ascii_output.HtmlAsciiOutput;
 import image.Image;
-import image.ImageOperations;
+//import ImageOperations;
 import image_char_matching.SubImgCharMatcher;
 
 import java.awt.*;
 import java.io.IOException;
 
 public class AsciiArtAlgorithm {
+    private static AsciiArtAlgorithm asciiArtAlgorithmObject = null;
     private static final String path = "examples/cat.jpeg";
+    private static final String path2 = "examples/cat2.jpeg";
+    private static final String path3 = "examples/board.jpeg";
+    //    private static final char[] INIT_CHARS = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8',
+    //    '9'};
+//    private final SubImgCharMatcher A = new SubImgCharMatcher(INIT_CHARS);
+//    private int resolution = 128;
+//    private Image image;
+//
+    private final Alogithmparameters parameters;
 
-    public char[][] run() throws IOException {
-        char[] asciiChars ={'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    public AsciiArtAlgorithm(Alogithmparameters parameters) throws IOException {
+        this.parameters = parameters;
+    }
+
+
+//
+//    public static AsciiArtAlgorithm getInstance() {
+//        if (AsciiArtAlgorithm.asciiArtAlgorithmObject == null) {
+//            AsciiArtAlgorithm.asciiArtAlgorithmObject = new AsciiArtAlgorithm();
+//        }
+//        return AsciiArtAlgorithm.asciiArtAlgorithmObject;
+//    }
+
+    public char[][] run(){
 //        char[] asciiChars = {
 //                ' ', '!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/',
 //                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<', '=', '>', '?',
@@ -48,17 +70,15 @@ public class AsciiArtAlgorithm {
 //                '+', ',', 'm', '.', '0', 'p', '1', '4', '7', ':', '{', ';', '=', '@', 'A', 'B', 'C', 'E',
 //                'K', 'T', 'W', ' ', 'a', '!', '"', 'c', '%', '&', '+', ',', 'm', '.', 'p', '0', '1', '4',
 //                '7', ';', '=','\u0000'};
-        float[][] brightnessArray = ImageOperations.greyBrightnessesByResolution(path, 128);
+        float[][] brightnessArray = ImageOperations.greyBrightnessesByResolution(parameters.getImage(),
+                parameters.getResolution());
         char[][] asciiArt = new char[brightnessArray.length][brightnessArray[0].length];
-        SubImgCharMatcher charMatcher = new SubImgCharMatcher(asciiChars);
-//        asciiArt = ImageOperations.greyResizedSubImages(path, 2);
+
         for (int i = 0; i < brightnessArray.length; i++) {
             for (int j = 0; j < brightnessArray[i].length; j++) {
-                asciiArt[i][j] = charMatcher.getCharByImageBrightness(brightnessArray[i][j]);
+                asciiArt[i][j] = parameters.getCharMatcher().getCharByImageBrightness(brightnessArray[i][j]);
             }
         }
-        HtmlAsciiOutput c = new HtmlAsciiOutput("examples/cat.html", "Courier New");
-        c.out(asciiArt);
         return asciiArt;
 
     }
@@ -76,12 +96,6 @@ public class AsciiArtAlgorithm {
         return asciiArtChars;
     }
 
-    public static void main(String[] args) {
-        AsciiArtAlgorithm A = new AsciiArtAlgorithm();
-        try {
-            char[][] x = A.run();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
+
 }

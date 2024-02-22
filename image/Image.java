@@ -13,6 +13,8 @@ import java.io.IOException;
  */
 public class Image {
 
+    private static final int FIRST_PRIME = 17;
+    private static final int SECOND_PRIME = 31;
     private final Color[][] pixelArray;
     private final int width;
     private final int height;
@@ -35,6 +37,40 @@ public class Image {
         this.pixelArray = pixelArray;
         this.width = width;
         this.height = height;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof Image)) {
+            return false;
+        }
+        Image otherImage = (Image) other;
+        if (width != otherImage.getWidth() || height != otherImage.getHeight()) {
+            return false;
+        }
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (!pixelArray[i][j].equals((otherImage.getPixel(i, j)))) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = FIRST_PRIME;
+        result = SECOND_PRIME * result + width;
+        result = SECOND_PRIME * result + height;
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                result = SECOND_PRIME * result + pixelArray[i][j].hashCode();
+            }
+        }
+
+        return result;
     }
 
     public int getWidth() {
@@ -66,5 +102,6 @@ public class Image {
             throw new RuntimeException(e);
         }
     }
+
 
 }
