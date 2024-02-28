@@ -12,7 +12,7 @@ import java.util.List;
 public class Shell {
     private static final String OUTPUT_CONSOLE_COMMAND = "output console";
     private static final String OUTPUT_HTML_COMMAND = "output html";
-    private static final String OUTPUT_HTML_PATH = "out.html";
+    private static final String OUTPUT_HTML_PATH = "Ourout.html";
     private static final String FONT = "Courier New";
 
 
@@ -125,7 +125,7 @@ public class Shell {
     }
 
     private void printAllCharsSorted() {
-        List<Character> sortedList = alogithmparameters.getCharMatcher().GetAllKeysSorted();
+        List<Character> sortedList = alogithmparameters.getCharMatcher().GetAllCharsSorted();
 
         for (int i = 0; i < sortedList.size(); i++) {
             System.out.print(sortedList.get(i));

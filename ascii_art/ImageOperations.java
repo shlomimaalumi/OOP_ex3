@@ -14,26 +14,15 @@ public class ImageOperations {
     private static final float BLUE_RATIO = 0.0722f;
     private static final float MAX_ASCII = 255;
     private static final int WHITE = 255;
-    private static final Map<Pair, float[][]> brightnessMap = new HashMap<>();
 
 
     public static float[][] greyBrightnessesByResolution(Image image, int resolution) {
-//        Image image;
-//        try {
-//            image = new Image(ImagePath);
-//        } catch (IOException e) {
-//            throw new IOException(e);
-//        }
+
         //todo CHECK IF RESOLUTION IS MORE THAN WIDTH
-        Pair imageVsResolution = new Pair(image, resolution);
-        if (brightnessMap.containsKey(imageVsResolution)) {
-            System.out.println("i know the answer");
-            return brightnessMap.get(imageVsResolution);
-        }
+
         image = resize(image);
         Image[][] subImages = divideImage(image, resolution);
         float[][] brightnessArray = getBrightnessArray(subImages);
-        brightnessMap.put(imageVsResolution, brightnessArray);
         return brightnessArray;
     }
 
@@ -142,40 +131,4 @@ public class ImageOperations {
         return new Image(pixelArray, resolutionSize, resolutionSize);
     }
 
-    private static class Pair {
-        private static final int FIRST_PRIME = 17;
-        private static final int SECOND_PRIME = 31;
-        private final Image image;
-        private final int resolution;
-
-        Pair(Image image, int resolution) {
-            this.image = image;
-            this.resolution = resolution;
-        }
-
-        public Image getImage() {
-            return image;
-        }
-
-        public int getResolution() {
-            return resolution;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (!(obj instanceof Pair)) {
-                return false;
-            }
-            Pair other = (Pair) obj;
-            return image.equals(other.getImage()) && other.getResolution() == resolution;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = FIRST_PRIME;
-            result = SECOND_PRIME * result + image.hashCode();
-            result = SECOND_PRIME * result + resolution;
-            return result;
-        }
-    }
 }
