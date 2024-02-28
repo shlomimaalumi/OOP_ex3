@@ -62,44 +62,61 @@ public class AsciiArtAlgorithm {
         return asciiArt;
     }
 
-
-
-
-    private static class Pair {
-        private static final int FIRST_PRIME = 17;
-        private static final int SECOND_PRIME = 31;
-        private final Image image;
-        private final int resolution;
-
-        Pair(Image image, int resolution) {
-            this.image = image;
-            this.resolution = resolution;
+    /**
+     * A utility class representing a pair of an image and a resolution. Used as a key in the brightnessMap
+     * to cache brightness arrays.
+     *
+     * @param image      The image.
+     * @param resolution The resolution.
+     */
+    private record Pair(Image image, int resolution) {
+        /**
+         * Constructs a Pair object with the specified image and resolution.
+         *
+         * @param image      the image.
+         * @param resolution the resolution.
+         */
+        private Pair {
         }
 
-        public Image getImage() {
+        /**
+         * Gets the image from the pair.
+         *
+         * @return the image.
+         */
+        @Override
+        public Image image() {
             return image;
         }
 
-        public int getResolution() {
+        /**
+         * Gets the resolution from the pair.
+         *
+         * @return the resolution.
+         */
+        @Override
+        public int resolution() {
             return resolution;
         }
 
+        /**
+         * Indicates whether some other object is "equal to" this one. This method overrides the default
+         * implementation provided by the {@code Object} class. It checks if the specified object is an
+         * instance of {@code Pair}, and if so, compares the image and resolution fields of both objects for
+         * equality.
+         *
+         * @param obj the reference object with which to compare.
+         * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise.
+         */
         @Override
         public boolean equals(Object obj) {
             if (!(obj instanceof Pair other)) {
                 return false;
             }
 
-            return image.equals(other.getImage()) && other.getResolution() == resolution;
+            return image.equals(other.image()) && other.resolution() == resolution;
         }
 
-        @Override
-        public int hashCode() {
-            int result = FIRST_PRIME;
-            result = SECOND_PRIME * result + image.hashCode();
-            result = SECOND_PRIME * result + resolution;
-            return result;
-        }
+
     }
-
 }

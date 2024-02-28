@@ -1,2 +1,168 @@
 refael.nagosa,shlomi483
 208746297,212032205
+
+
+
+ 1. AsciiArtAlgorithm: This class is responsible for generating ASCII art from an image. It contains
+    a method run() that orchestrates the process of converting an image into ASCII characters.
+
+    Alogithmparameters: This class holds parameters and settings related to the ASCII art generation
+    algorithm. It manages the resolution of the image, the character set used for rendering, and
+    provides methods for updating these parameters.
+
+    AsciiOutput: This is an interface that defines the contract for classes responsible for
+    outputting ASCII art. It declares a method out(char[][] asciiArt) which implementations will
+    use to display or save the ASCII art.
+
+    ConsoleAsciiOutput: An implementation of the AsciiOutput interface that outputs the ASCII art to
+    the console.
+
+    HtmlAsciiOutput: Another implementation of the AsciiOutput interface, but this one outputs the
+    ASCII art to an HTML file.
+
+    Image: This class represents an image and provides methods for accessing pixel data and
+    metadata.
+
+    ImageOperations: Contains static methods for performing operations on images, such as resizing
+    and calculating brightness, has only 1 public function: greyBrightnessesByResolution that
+    return float[][] of the brightness by given image and resolution. also have a static map so
+    that he will not need to calculate twice the same image with the same resolution.
+
+    Pair: A utility class used in AsciiArtAlgorithm to store pairs of images and resolutions. It
+    overrides equals() and hashCode() for proper comparison and hashing.
+
+    Shell: This class represents the shell or command-line interface for interacting with the ASCII
+    art generation functionality. It handles user input, commands for changing parameters, and
+    executing the ASCII art generation algorithm.
+
+    Each class has a specific role within the project, contributing to the overall functionality of
+    generating ASCII art from images and providing a user interface for interacting with the
+    system.
+
+
+
+
+
+2.
+
+SubImgCharMatcher::  TreeMap<Float, List<Character>> floatToCharsMap;
+
+   For the current set of characters that we currently work with, we worked in a TreeMap structure
+   whose key is the brightness val and the value is the list of characters that match the required
+   brightness. This is a very efficient approach since searching for a character with a value
+   closest to a desired value will be performed in logarithmic time as happens in a tree. The space
+   complexity is the size of the members and the addition and removal time complications also occur
+   in logarithmic time. Considering that we would like to use a character set for many images we
+   wanted to save the search cost.
+
+SubImgCharMatcher::   static HashMap<Character, Float> charBrightnessHistoryMap
+
+   For keeping the brightness of the characters we used HashMap since we would like to add and
+   search only values(brightness value) of certain keys (characters we will work with). It is known
+   that adding and searching for keys in HashMap is O(1) and therefore will provide what we want as
+   required. Also, the complexity of the place will be O(n) where n is the number of characters we
+   will work with throughout the entire run regardless of the honesty of the algorithms that will
+   run at the same time
+
+
+brightnessMap::    static  Map<Pair, float[][]> brightnessMap = new HashMap<>();
+
+    We keep a HashMap so we can save the value calculations we made for the pair (image, resolution)
+    so that if we use the same values again we can extract them and not recalculate again. The
+    complexities of the place: we check in O(1) whether the pair has already been calculated, if so
+    we extract the value in O(1) runtime. The complexity of the place is O(n) as the number of
+    different calculations we did.
+
+
+3. IOException Handling:
+
+   In several parts of the project, file operations like opening an image file are performed. These
+   operations may encounter IO-related issues such as file not found. Java's IOException is caught
+   using a try-catch block around the file-related operations. When an IOException occurs, a
+   specific error message is printed to the console to inform the user about the problem. For
+   example, when opening an image file fails due to an IOException, the message "Did not execute
+   due to problem with image file" is printed.
+
+   Invalid Input Handling:
+
+   The project deals with various user inputs, such as commands entered through the shell interface.
+   Input validation is performed using conditional statements and string manipulation techniques.
+   If the input does not match the expected format or contains invalid values, appropriate error
+   messages are printed to notify the user of the incorrect input.
+
+   For instance, when a command is entered in an incorrect format (e.g., missing parameters or
+   invalid command), the message "Did not execute due to incorrect command" is displayed. Error
+   Message Printing:
+
+   Throughout the project, error messages are printed to the console using the System.out.println
+   () method. These error messages provide descriptive information about what went wrong during
+   program execution, helping the user understand the nature of the issue. Error messages are
+   printed directly to the console, ensuring that the user receives immediate feedback about any
+   problems encountered. By leveraging Java's exception handling features, the project ensures
+   robust error handling and provides informative error messages to guide users in resolving issues
+   encountered during execution. This approach enhances the overall usability and reliability of
+   the project.
+
+   Note that the only place where we handle the error and do not pass it on is in the shell
+
+
+4.
+
+   we added the function public List<Character> GetAllCharsSorted() to the API of SubImgCharMatcher
+   can offer several benefits:(for the exercise we did it so we can do execute the chars operation
+   but there is  more:)
+
+   Encapsulation and Abstraction: Encapsulating the sorting logic within the SubImgCharMatcher class
+   hides the internal implementation details from the users. Users only need to know that they can
+   retrieve the characters in a sorted manner, without needing to understand how the sorting is
+   implemented. Enhanced Usability:
+
+   Convenience for future integration: Providing a method to retrieve all characters sorted
+   alphabetically or based on some criteria makes it more convenient for users to interact with the
+   SubImgCharMatcher class. Users won't need to manually sort the characters themselves, reducing
+   the complexity of their code and making their interactions with the class simpler.
+
+   Predictability and Consistency: By offering a standardized method to retrieve all characters
+   sorted, the API becomes more predictable and consistent. Users can rely on this method to
+   consistently return the characters in a sorted order, regardless of the internal implementation
+   details of the SubImgCharMatcher class.
+
+   In summary, adding the GetAllCharsSorted() function to the API of SubImgCharMatcher improves
+   usability, readability, and consistency for users, while also encapsulating the sorting logic
+   within the class.
+
+5.
+
+   The changes made to the hashCode and equals methods in the Image class, along with the usage of
+   the Pair class in the AsciiArtAlgorithm, serve the purpose of efficiently caching brightness
+   arrays computed for each image-resolution pair. Here's a breakdown of how these changes achieve
+   this purpose:
+
+   Changes in Image Class:
+
+
+   equals(Object obj) Method:
+
+   The equals method is overridden to compare two Image objects for equality. It checks if the
+   width, height, and pixel values of two images are the same. This ensures that two images with
+   the same dimensions and pixel values are considered equal.
+
+
+   hashCode() Method:
+
+   The hashCode method is overridden to generate a hash code for an Image object. It incorporates
+   the width, height, and pixel values of the image to calculate the hash code. This ensures that
+   images with the same dimensions and pixel values produce the same hash code.
+
+
+
+   Purpose: Efficient Caching: By ensuring that two Image objects with the same dimensions and pixel
+   values produce the same hash code and are considered equal, the brightnessMap can efficiently
+   cache brightness arrays. When an image-resolution pair is encountered again, the brightnessMap
+   can quickly retrieve the corresponding brightness array using the cached value. Optimized Memory
+   Usage: Caching brightness arrays prevents redundant computations for identical image-resolution
+   pairs, optimizing memory usage and improving performance. Time Complexity: The time complexity
+   of retrieving a brightness array from the brightnessMap is O(1) on average, as it involves a
+   constant-time hash table lookup. Space Complexity: The space complexity of storing brightness
+   arrays in the brightnessMap is O(N), where N is the number of unique image-resolution pairs
+   encountered during execution.

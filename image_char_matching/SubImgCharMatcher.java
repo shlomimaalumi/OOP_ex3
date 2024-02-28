@@ -12,6 +12,18 @@ public class SubImgCharMatcher {
      * The default space character.
      */
     private static final char SPACE_CHAR = ' ';
+    /**
+     * Index of the first character in an array or string.
+     */
+    private static final int FIRST_INDEX = 0;
+    /**
+     * init a counter value to 0
+     */
+    private static final int INITIAL_COUNTER = 0;
+    /**
+     * init a counter value to 1
+     */
+    private static final int NEXT_COUNTER = 1;
 
     /**
      * The character brightness history map.

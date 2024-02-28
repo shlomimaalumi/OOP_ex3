@@ -79,10 +79,9 @@ public class Image {
      */
     @Override
     public boolean equals(Object other) {
-        if (!(other instanceof Image)) {
+        if (!(other instanceof Image otherImage)) {
             return false;
         }
-        Image otherImage = (Image) other;
         if (width != otherImage.getWidth() || height != otherImage.getHeight()) {
             return false;
         }

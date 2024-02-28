@@ -9,6 +9,12 @@ import java.util.List;
 
 //import static jdk.internal.org.jline.utils.Colors.s;
 
+/**
+ * The Shell class represents the command-line interface for interacting with the AsciiArtAlgorithm. It
+ * allows users to input various commands to manipulate the ASCII art generation process, change settings,
+ * and view the output. The class handles user input and delegates the corresponding actions to the
+ * AsciiArtAlgorithm and associated components.
+ */
 public class Shell {
     /**
      * Command string for changing the output mode to console.
@@ -249,27 +255,13 @@ public class Shell {
             case EXIT_COMMAND -> {
                 return false;
             }
-            case RES_UP -> {
-                handleResUp();
-            }
-            case RES_DOWN -> {
-                handleResDown();
-            }
-            case OUTPUT_CONSOLE_COMMAND -> {
-                output = CONSOLE_ASCII_OUTPUT;
-            }
-            case OUTPUT_HTML_COMMAND -> {
-                output = HTML_ASCII_OUTPUT;
-            }
-            case ASCII_ART_COMMAND -> {
-                runAlgorithm(algorithm);
-            }
-            case CHARS -> {
-                printAllCharsSorted();
-            }
-            default -> {
-                runComplexCommand(command);
-            }
+            case RES_UP -> handleResUp();
+            case RES_DOWN -> handleResDown();
+            case OUTPUT_CONSOLE_COMMAND -> output = CONSOLE_ASCII_OUTPUT;
+            case OUTPUT_HTML_COMMAND -> output = HTML_ASCII_OUTPUT;
+            case ASCII_ART_COMMAND -> runAlgorithm(algorithm);
+            case CHARS -> printAllCharsSorted();
+            default -> runComplexCommand(command);
         }
         return true;
     }
