@@ -7,6 +7,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+//import static ascii_art.Alogithmparameters.BASE_TWO;
+import static java.lang.Math.*;
+
+
 public class ImageOperations {
 
     private static final float RED_RATIO = 0.2126f;
@@ -14,6 +18,7 @@ public class ImageOperations {
     private static final float BLUE_RATIO = 0.0722f;
     private static final float MAX_ASCII = 255;
     private static final int WHITE = 255;
+    private static final int BASE_TWO = 2;
 
 
     public static float[][] greyBrightnessesByResolution(Image image, int resolution) {
@@ -27,11 +32,10 @@ public class ImageOperations {
     }
 
     private static int findClosestPowerOf2(int num) {
-        int powerOf2 = 1;
-        while (powerOf2 < num) {
-            powerOf2 <<= 1;
-        }
-        return powerOf2;
+        double div = log(num) / log(BASE_TWO);
+        int ceilVal = (int) ceil(div);
+//        return BASE_TWO^(ceilVal);
+        return (int) pow(BASE_TWO,ceilVal);
     }
 
 

@@ -12,7 +12,7 @@ import java.util.List;
 public class Shell {
     private static final String OUTPUT_CONSOLE_COMMAND = "output console";
     private static final String OUTPUT_HTML_COMMAND = "output html";
-    private static final String OUTPUT_HTML_PATH = "Ourout.html";
+    private static final String OUTPUT_HTML_PATH = "out.html";
     private static final String FONT = "Courier New";
 
 
@@ -33,7 +33,6 @@ public class Shell {
     private static final int SINGLE_CHAR = 1;
     private static final int FIRST_INDEX = 0;
     private static final int LAST_INDEX = -1;
-
     private static final int SECOND_INDEX = 1;
     private static final int ATTER_REGEX = 1;
     private static final int TWO_CHARS = 2;
@@ -60,15 +59,19 @@ public class Shell {
     private static final String EMPTY_CHARSET_MESSAGE = "Did not execute. Charset is empty.";
 
 
-    private AsciiOutput output;
+    private static final ConsoleAsciiOutput CONSOLE_ASCII_OUTPUT = new ConsoleAsciiOutput();
+    private static final HtmlAsciiOutput HTML_ASCII_OUTPUT = new HtmlAsciiOutput(OUTPUT_HTML_PATH, FONT);
+    private AsciiOutput output = CONSOLE_ASCII_OUTPUT;
     private Alogithmparameters alogithmparameters;
 
-    public void run() throws IOException {
-        alogithmparameters = new Alogithmparameters();
+    public void run() {
+        try {
+            alogithmparameters = new Alogithmparameters();
+        } catch (IOException e) {
+            System.out.println(IO_EXPECTION);
+        }
         AsciiArtAlgorithm algorithm = new AsciiArtAlgorithm(alogithmparameters);
-        HtmlAsciiOutput htmlAsciiOutput = new HtmlAsciiOutput(OUTPUT_HTML_PATH, FONT);
 
-//        algorithm.run();
         while (true) {
             System.out.print(PREFIX);
             String command = KeyboardInput.readLine();
@@ -94,7 +97,7 @@ public class Shell {
                 output = CONSOLE_ASCII_OUTPUT;
             }
             case OUTPUT_HTML_COMMAND -> {
-                output = new HtmlAsciiOutput(OUTPUT_HTML_PATH, FONT);
+                output = HTML_ASCII_OUTPUT;
             }
             case ASCII_ART_COMMAND -> {
                 runAlgorithm(algorithm);
@@ -141,37 +144,45 @@ public class Shell {
 
     private void runComplexCommand(String command) {
 
-        if (command.startsWith(ADD_PREFIX)) {
+        if (command.startsWith(ADD_PREFIX + SPACE_PREFIX)) {
             runAddingCommand(command.split(SPACE_REGEX)[ATTER_REGEX]);
-        } else if (command.startsWith(REMOVE_PREFIX)) {
+        } else if (command.equals(ADD_PREFIX)) {
+            System.out.println(INVALID_ADD_REQUEST);
+        } else if (command.startsWith(REMOVE_PREFIX + SPACE_PREFIX)) {
             runRemovingCommand(command.split(SPACE_REGEX)[ATTER_REGEX]);
-        } else if (command.startsWith(OUTPUT_PREFIX)) {
+        } else if (command.equals(REMOVE_PREFIX)) {
+            System.out.println(INVALID_REMOVE_REQUEST);
+        } else if (command.startsWith(OUTPUT_PREFIX + SPACE_PREFIX) || command.equals(OUTPUT_PREFIX)) {
             System.out.println(INVALID_OUTPUT_REQUEST);
-        } else if (command.startsWith(RES_PREFIX)) {
+        } else if (command.startsWith(RES_PREFIX + SPACE_PREFIX) || command.equals(RES_PREFIX)) {
             System.out.println(INVALID_RES_REQUEST);
-        } else if (command.startsWith(CHANGE_IMAGE_PREFIX)) {
-            try {
-                alogithmparameters.updateImage(command.split(SPACE_REGEX)[ATTER_REGEX]);
-            } catch (IOException e) {
-                System.out.println(IO_EXPECTION);
-            }
-        }
-        else{
+        } else if (command.startsWith(CHANGE_IMAGE_PREFIX + SPACE_PREFIX)) {
+            handleImageUpdate(command);
+        } else {
             System.out.println(INVALID_COMMAND);
         }
     }
 
-    private void runAddingCommand(String s) {
-        if (s.length() == SINGLE_CHAR) {
-            alogithmparameters.getCharMatcher().addChar(s.charAt(FIRST_INDEX));
-        } else if (s.equals(ALL_CHARS)) {
+
+    private void handleImageUpdate(String command) {
+        try {
+            alogithmparameters.updateImage(command.split(SPACE_REGEX)[ATTER_REGEX]);
+        } catch (IOException e) {
+            System.out.println(IO_EXPECTION);
+        }
+    }
+
+    private void runAddingCommand(String command) {
+        if (command.length() == SINGLE_CHAR) {
+            alogithmparameters.getCharMatcher().addChar(command.charAt(FIRST_INDEX));
+        } else if (command.equals(ALL_CHARS)) {
             for (char c = SPACE_CHAR; c <= TILDA_CHAR; c++) {
                 alogithmparameters.getCharMatcher().addChar(c);
             }
-        } else if (s.equals(SPACE)) {
+        } else if (command.equals(SPACE)) {
             alogithmparameters.getCharMatcher().addChar(SPACE_CHAR);
         } else {
-            String[] sep = s.split(MINUS_REGEX);
+            String[] sep = command.split(MINUS_REGEX);
             if (sep.length != TWO_CHARS || sep[FIRST_INDEX].length() != SINGLE_CHAR ||
                     sep[SECOND_INDEX].length() != SINGLE_CHAR) {
                 System.out.println(INVALID_ADD_REQUEST);
@@ -190,17 +201,17 @@ public class Shell {
         }
     }
 
-    private void runRemovingCommand(String s) {
-        if (s.length() == SINGLE_CHAR) {
-            alogithmparameters.getCharMatcher().removeChar(s.charAt(FIRST_INDEX));
-        } else if (s.equals(ALL_CHARS)) {
+    private void runRemovingCommand(String command) {
+        if (command.length() == SINGLE_CHAR) {
+            alogithmparameters.getCharMatcher().removeChar(command.charAt(FIRST_INDEX));
+        } else if (command.equals(ALL_CHARS)) {
             for (char c = SPACE_CHAR; c <= TILDA_CHAR; c++) {
                 alogithmparameters.getCharMatcher().removeChar(c);
             }
-        } else if (s.equals(SPACE)) {
+        } else if (command.equals(SPACE)) {
             alogithmparameters.getCharMatcher().removeChar(SPACE_CHAR);
         } else {
-            String[] sep = s.split(MINUS_REGEX);
+            String[] sep = command.split(MINUS_REGEX);
             if (sep.length != TWO_CHARS || sep[FIRST_INDEX].length() != SINGLE_CHAR ||
                     sep[SECOND_INDEX].length() != SINGLE_CHAR) {
                 System.out.println(INVALID_REMOVE_REQUEST);
@@ -230,12 +241,7 @@ public class Shell {
 
 
     public static void main(String[] args) {
-        Shell shell = new Shell();
-        try {
-            shell.run();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        new Shell().run();
     }
 }
 

@@ -7,7 +7,7 @@ import image_char_matching.SubImgCharMatcher;
 
 import java.io.IOException;
 
-import static java.lang.Math.max;
+import static java.lang.Math.*;
 
 public class Alogithmparameters {
     private static final char[] INIT_CHARS = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
@@ -20,7 +20,7 @@ public class Alogithmparameters {
     private Image image;
 
 
-    public Alogithmparameters() throws IOException {
+    Alogithmparameters() throws IOException {
         try {
             this.image = openImage(DEFAULT_PATH);
         } catch (IOException e) {
@@ -31,13 +31,9 @@ public class Alogithmparameters {
 
     }
 
-//    private static int getNewWidth(int width) {
-//        int newWidth = 1;
-//        while (newWidth < width) {
-//            newWidth = newWidth << 1;
-//        }
-//        return newWidth;
-//    }
+    private int getHighestPow2(int num) {
+        return MIN_POW << (int) Math.ceil(Math.log(num) / Math.log(BASE_TWO));
+    }
 
 
     private Image openImage(String path) throws IOException {
@@ -51,7 +47,7 @@ public class Alogithmparameters {
     }
 
     boolean resUp() {
-        if (resolution * 2 > image.getWidth()) {
+        if (resolution * 2 > getHighestPow2(image.getWidth())) {
             return false;
         }
         resolution *= 2;
@@ -60,13 +56,12 @@ public class Alogithmparameters {
     }
 
     boolean resDown() {
-        if (resolution / 2 < max(1, image.getWidth() / image.getHeight())) {
+        if (resolution / 2 < max(1, getHighestPow2(image.getWidth()) / getHighestPow2(image.getHeight()))) {
             return false;
         }
         resolution /= 2;
         return true;
     }
-
 
     void updateImage(String path) throws IOException {
         try {

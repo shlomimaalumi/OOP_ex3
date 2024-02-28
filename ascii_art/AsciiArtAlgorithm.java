@@ -8,12 +8,7 @@ import java.util.Map;
 
 public class AsciiArtAlgorithm {
     private static final Map<Pair, float[][]> brightnessMap = new HashMap<>();
-    //    private static final char[] INIT_CHARS = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8',
-    //    '9'};
-//    private final SubImgCharMatcher A = new SubImgCharMatcher(INIT_CHARS);
-//    private int resolution = 128;
-//    private Image image;
-//
+
     private final Alogithmparameters parameters;
 
     public AsciiArtAlgorithm(Alogithmparameters parameters){
@@ -21,20 +16,11 @@ public class AsciiArtAlgorithm {
     }
 
 
-//
-//    public static AsciiArtAlgorithm getInstance() {
-//        if (AsciiArtAlgorithm.asciiArtAlgorithmObject == null) {
-//            AsciiArtAlgorithm.asciiArtAlgorithmObject = new AsciiArtAlgorithm();
-//        }
-//        return AsciiArtAlgorithm.asciiArtAlgorithmObject;
-//    }
-
     public char[][] run()  {
 
         Pair imageVsResolution = new Pair(parameters.getImage(), parameters.getResolution());
         float[][] brightnessArray;
         if (brightnessMap.containsKey(imageVsResolution)) {
-            System.out.println("i know the answer");
             brightnessArray = brightnessMap.get(imageVsResolution);
         } else {
             brightnessArray = ImageOperations.greyBrightnessesByResolution(parameters.getImage(),

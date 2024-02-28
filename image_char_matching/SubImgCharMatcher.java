@@ -31,7 +31,6 @@ public class SubImgCharMatcher {
         initNormalMap();
     }
 
-
     public char getCharByImageBrightness(double brightness) throws RuntimeException {
         if (floatToCharsMap.isEmpty()) {
             throw new RuntimeException("Character set is empty");
@@ -55,17 +54,6 @@ public class SubImgCharMatcher {
             return asciiMinValue(closestBrightnessDown.getValue());
         }
         return SPACE_CHAR;
-    }
-
-
-    private char asciiMinValue(List<Character> characters) {
-        char minAsciiChar = characters.get(0);
-        for (char c : characters) {
-            if (c < minAsciiChar) {
-                minAsciiChar = c;
-            }
-        }
-        return minAsciiChar;
     }
 
 
@@ -134,7 +122,17 @@ public class SubImgCharMatcher {
         }
     }
 
-    public boolean checkMaxUpdate(char c) {
+    private char asciiMinValue(List<Character> characters) {
+        char minAsciiChar = characters.get(0);
+        for (char c : characters) {
+            if (c < minAsciiChar) {
+                minAsciiChar = c;
+            }
+        }
+        return minAsciiChar;
+    }
+
+    private boolean checkMaxUpdate(char c) {
         if (charBrightnessHistoryMap.get(c) == maxCharBrightness) {
             maxCharBrightness = floatToCharsMap.lastKey();
             return true;
