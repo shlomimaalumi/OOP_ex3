@@ -10,60 +10,216 @@ import java.util.List;
 //import static jdk.internal.org.jline.utils.Colors.s;
 
 public class Shell {
+    /**
+     * Command string for changing the output mode to console.
+     */
     private static final String OUTPUT_CONSOLE_COMMAND = "output console";
+
+    /**
+     * Command string for changing the output mode to HTML.
+     */
     private static final String OUTPUT_HTML_COMMAND = "output html";
+
+    /**
+     * Default path for the HTML output file.
+     */
     private static final String OUTPUT_HTML_PATH = "out.html";
+
+    /**
+     * Default font used for ASCII art rendering.
+     */
     private static final String FONT = "Courier New";
 
-
+    /**
+     * Command string prefix for user input.
+     */
     private static final String PREFIX = ">>> ";
+
+    /**
+     * Command string for generating ASCII art.
+     */
     private static final String ASCII_ART_COMMAND = "asciiArt";
+
+    /**
+     * Command string for exiting the shell.
+     */
     private static final String EXIT_COMMAND = "exit";
-    private static final String
-            CHANGE_IMAGE_PREFIX = "image";
+
+    /**
+     * Prefix for commands related to changing the image.
+     */
+    private static final String CHANGE_IMAGE_PREFIX = "image";
+
+    /**
+     * Prefix for commands related to changing the output mode.
+     */
     private static final String OUTPUT_PREFIX = "output";
+
+    /**
+     * Prefix for commands related to changing the resolution.
+     */
     private static final String RES_PREFIX = "res";
+
+    /**
+     * Prefix for commands related to adding characters to the charset.
+     */
     private static final String ADD_PREFIX = "add";
+
+    /**
+     * Prefix for commands related to removing characters from the charset.
+     */
     private static final String REMOVE_PREFIX = "remove";
+
+    /**
+     * Prefix for commands requiring space separation.
+     */
     private static final String SPACE_PREFIX = " ";
+
+    /**
+     * Command string for increasing resolution.
+     */
     private static final String RES_UP = "res up";
+
+    /**
+     * Command string for decreasing resolution.
+     */
     private static final String RES_DOWN = "res down";
 
-
+    /**
+     * Length of a single character.
+     */
     private static final int SINGLE_CHAR = 1;
+
+    /**
+     * Index of the first character in an array or string.
+     */
     private static final int FIRST_INDEX = 0;
+
+    /**
+     * Index of the last character in an array or string.
+     */
     private static final int LAST_INDEX = -1;
+
+    /**
+     * Index of the second character in an array or string.
+     */
     private static final int SECOND_INDEX = 1;
+
+    /**
+     * Regex group index used for splitting commands.
+     */
     private static final int ATTER_REGEX = 1;
+
+    /**
+     * Number of characters in a range specifier.
+     */
     private static final int TWO_CHARS = 2;
 
-
+    /**
+     * Character representing a space.
+     */
     private static final char SPACE_CHAR = ' ';
+
+    /**
+     * Character representing a tilde (~).
+     */
     private static final char TILDA_CHAR = '~';
+
+    /**
+     * Command string representing all printable ASCII characters.
+     */
     private static final String ALL_CHARS = "all";
+
+    /**
+     * Command string representing the space character.
+     */
     private static final String SPACE = "space";
+
+    /**
+     * Command string for listing all characters in the charset.
+     */
     private static final String CHARS = "chars";
+
+    /**
+     * Regular expression for splitting commands with spaces.
+     */
     private static final String SPACE_REGEX = " ";
+
+    /**
+     * Regular expression for splitting range specifiers.
+     */
     private static final String MINUS_REGEX = "-";
 
-
+    /**
+     * Error message for an invalid request to add characters.
+     */
     private static final String INVALID_ADD_REQUEST = "Did not add due to incorrect format.";
+
+    /**
+     * Error message for an invalid request to remove characters.
+     */
     private static final String INVALID_REMOVE_REQUEST = "Did not remove due to incorrect format.";
+
+    /**
+     * Error message for an invalid request to change the output mode.
+     */
     private static final String INVALID_OUTPUT_REQUEST = "Did not change output method due to incorrect " +
             "format.";
+
+    /**
+     * Error message for an invalid request to change the resolution.
+     */
     private static final String INVALID_RES_REQUEST = "Did not change resolution due to incorrect format.";
+
+    /**
+     * Error message for attempting to change the resolution beyond the image boundaries.
+     */
     private static final String RES_EXCEED_WIDTH = "Did not change resolution due to exceeding boundaries.";
+
+    /**
+     * Message indicating a successful resolution change.
+     */
     private static final String RES_UPDATE_MESSAGE = "Resolution set to ";
+
+    /**
+     * Error message for an I/O exception while handling an image file.
+     */
     private static final String IO_EXPECTION = "Did not execute due to problem with image file.";
+
+    /**
+     * Error message for an invalid command.
+     */
     private static final String INVALID_COMMAND = "Did not execute due to incorrect command.";
+
+    /**
+     * Error message for attempting to execute a command when the charset is empty.
+     */
     private static final String EMPTY_CHARSET_MESSAGE = "Did not execute. Charset is empty.";
 
-
+    /**
+     * Console output handler for ASCII art.
+     */
     private static final ConsoleAsciiOutput CONSOLE_ASCII_OUTPUT = new ConsoleAsciiOutput();
+
+    /**
+     * HTML output handler for ASCII art.
+     */
     private static final HtmlAsciiOutput HTML_ASCII_OUTPUT = new HtmlAsciiOutput(OUTPUT_HTML_PATH, FONT);
+
+    /**
+     * Current output mode for ASCII art rendering.
+     */
     private AsciiOutput output = CONSOLE_ASCII_OUTPUT;
+
+    /**
+     * Parameters and settings for the ASCII art algorithm.
+     */
     private Alogithmparameters alogithmparameters;
 
+
+    /**
+     * Runs the shell, providing a command-line interface for interacting with the ASCII art algorithm.
+     */
     public void run() {
         try {
             alogithmparameters = new Alogithmparameters();
@@ -81,7 +237,13 @@ public class Shell {
         }
     }
 
-
+    /**
+     * Handles the given command.
+     *
+     * @param command   The command to handle.
+     * @param algorithm The ASCII art algorithm to use.
+     * @return {@code true} if the program should continue running; {@code false} if it should exit.
+     */
     private boolean handleCommand(String command, AsciiArtAlgorithm algorithm) {
         switch (command) {
             case EXIT_COMMAND -> {
@@ -112,7 +274,9 @@ public class Shell {
         return true;
     }
 
-
+    /**
+     * Handles the "res down" command, decreasing the resolution if possible.
+     */
     private void handleResDown() {
         if (!alogithmparameters.resDown()) {
             System.out.println(RES_EXCEED_WIDTH);
@@ -121,6 +285,9 @@ public class Shell {
         }
     }
 
+    /**
+     * Handles the "res up" command, increasing the resolution if possible.
+     */
     private void handleResUp() {
         if (!alogithmparameters.resUp()) {
             System.out.println(RES_EXCEED_WIDTH);
@@ -129,6 +296,9 @@ public class Shell {
         }
     }
 
+    /**
+     * Prints all characters in the charset sorted.
+     */
     private void printAllCharsSorted() {
         List<Character> sortedList = alogithmparameters.getCharMatcher().GetAllCharsSorted();
 
@@ -141,7 +311,11 @@ public class Shell {
         System.out.println();
     }
 
-
+    /**
+     * Runs a complex command, handling special cases like adding or removing characters from the charset.
+     *
+     * @param command The command to run.
+     */
     private void runComplexCommand(String command) {
 
         if (command.startsWith(ADD_PREFIX + SPACE_PREFIX)) {
@@ -163,7 +337,12 @@ public class Shell {
         }
     }
 
-
+    /**
+     * Handles updating the image used for ASCII art generation based on the provided command. If the image
+     * path is valid, it updates the current image; otherwise, it prints an error message.
+     *
+     * @param command The command containing the new image path.
+     */
     private void handleImageUpdate(String command) {
         try {
             alogithmparameters.updateImage(command.split(SPACE_REGEX)[ATTER_REGEX]);
@@ -172,6 +351,15 @@ public class Shell {
         }
     }
 
+    /**
+     * Runs a command to add characters to the charset used for ASCII art generation. If the command
+     * specifies a single character, it adds that character to the charset. If the command is "all", it adds
+     * all printable ASCII characters. If the command is "space", it adds the space character. If the command
+     * specifies a range of characters (e.g., "a-z"), it adds all characters in that range. If the command
+     * format is invalid, it prints an error message.
+     *
+     * @param command The command specifying the characters to add.
+     */
     private void runAddingCommand(String command) {
         if (command.length() == SINGLE_CHAR) {
             alogithmparameters.getCharMatcher().addChar(command.charAt(FIRST_INDEX));
@@ -193,6 +381,12 @@ public class Shell {
         }
     }
 
+    /**
+     * Adds characters in the specified range (inclusive) to the charset used for ASCII art generation.
+     *
+     * @param c  The starting character of the range.
+     * @param c1 The ending character of the range.
+     */
     private void addCharsInRange(char c, char c1) {
         char min_c = ((int) c < (int) c1) ? c : c1;
         char max_c = ((int) c > (int) c1) ? c : c1;
@@ -201,6 +395,15 @@ public class Shell {
         }
     }
 
+    /**
+     * Runs a command to remove characters from the charset used for ASCII art generation. If the command
+     * specifies a single character, it removes that character from the charset. If the command is "all", it
+     * removes all printable ASCII characters. If the command is "space", it removes the space character. If
+     * the command specifies a range of characters (e.g., "a-z"), it removes all characters in that range. If
+     * the command format is invalid, it prints an error message.
+     *
+     * @param command The command specifying the characters to remove.
+     */
     private void runRemovingCommand(String command) {
         if (command.length() == SINGLE_CHAR) {
             alogithmparameters.getCharMatcher().removeChar(command.charAt(FIRST_INDEX));
@@ -222,6 +425,12 @@ public class Shell {
         }
     }
 
+    /**
+     * Removes characters in the specified range (inclusive) from the charset used for ASCII art generation.
+     *
+     * @param c  The starting character of the range.
+     * @param c1 The ending character of the range.
+     */
     private void removeCharsInRange(char c, char c1) {
         char min_c = ((int) c < (int) c1) ? c : c1;
         char max_c = ((int) c > (int) c1) ? c : c1;
@@ -230,6 +439,11 @@ public class Shell {
         }
     }
 
+    /**
+     * Runs the ASCII art algorithm and outputs the result.
+     *
+     * @param algorithm The ASCII art algorithm to run.
+     */
     private void runAlgorithm(AsciiArtAlgorithm algorithm) {
         if (alogithmparameters.getCharMatcher().GetAllCharsSorted().isEmpty()) {
             System.out.println(EMPTY_CHARSET_MESSAGE);
@@ -239,7 +453,11 @@ public class Shell {
         output.out(resultChars);
     }
 
-
+    /**
+     * The main method that starts the shell.
+     *
+     * @param args Command-line arguments (not used).
+     */
     public static void main(String[] args) {
         new Shell().run();
     }

@@ -33,6 +33,14 @@ public class CharConverter {
         return matrix;
     }
 
+    /**
+     * Generates a BufferedImage for rendering the specified character with the given font and pixel resolution.
+     *
+     * @param c            The character to render.
+     * @param fontName     The name of the font to use.
+     * @param pixelsPerRow The pixel resolution of the image.
+     * @return The BufferedImage representing the rendered character.
+     */
     private static BufferedImage getBufferedImage(char c, String fontName, int pixelsPerRow) {
         String charStr = Character.toString(c);
         Font font = new Font(fontName, Font.PLAIN, pixelsPerRow);

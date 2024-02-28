@@ -40,10 +40,10 @@ public class ImageOperations {
 
 
     private static void addRows(Color[][] pixelArray, int height, int newHeight, int newWidth) {
-        for (int i = 0; i < (newHeight - height) / 2; i++) {
+        for (int i = 0; i < (newHeight - height) / HALF_VAL; i++) {
             for (int j = 0; j < newWidth; j++) {
                 pixelArray[i][j] = new Color(WHITE, WHITE, WHITE);
-                pixelArray[newHeight - i - 1][j] = new Color(WHITE, WHITE, WHITE);
+                pixelArray[newHeight - i - LIST_ROTATE][j] = new Color(WHITE, WHITE, WHITE);
             }
         }
     }
@@ -52,7 +52,7 @@ public class ImageOperations {
         for (int i = 0; i < (newWidth - width) / 2; i++) {
             for (int j = 0; j < newHeight; j++) {
                 pixelArray[j][i] = new Color(WHITE, WHITE, WHITE);
-                pixelArray[j][newWidth - i - 1] = new Color(WHITE, WHITE, WHITE);
+                pixelArray[j][newWidth - i - LIST_ROTATE] = new Color(WHITE, WHITE, WHITE);
             }
         }
     }
@@ -84,7 +84,7 @@ public class ImageOperations {
 
     private static float[][] getBrightnessArray(Image[][] images) {
         int height = images.length;
-        int width = images[0].length;
+        int width = images[FIRST_INDEX].length;
         float[][] brightnessArray = new float[height][width];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
