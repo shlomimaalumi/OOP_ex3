@@ -34,6 +34,7 @@ public class ImageOperations {
         return powerOf2;
     }
 
+
     private static void addRows(Color[][] pixelArray, int height, int newHeight, int newWidth) {
         for (int i = 0; i < (newHeight - height) / 2; i++) {
             for (int j = 0; j < newWidth; j++) {

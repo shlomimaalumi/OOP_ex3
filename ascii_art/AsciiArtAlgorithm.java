@@ -29,7 +29,7 @@ public class AsciiArtAlgorithm {
 //        return AsciiArtAlgorithm.asciiArtAlgorithmObject;
 //    }
 
-    public char[][] run() {
+    public char[][] run()  {
 
         Pair imageVsResolution = new Pair(parameters.getImage(), parameters.getResolution());
         float[][] brightnessArray;

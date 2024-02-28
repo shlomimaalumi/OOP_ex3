@@ -19,14 +19,15 @@ public class Shell {
     private static final String PREFIX = ">>> ";
     private static final String ASCII_ART_COMMAND = "asciiArt";
     private static final String EXIT_COMMAND = "exit";
-    private static final String ADD_PREFIX = "add ";
     private static final String
-            CHANGE_IMAGE_PREFIX = "image ";
-    private static final String OUTPUT_PREFIX = "output ";
+            CHANGE_IMAGE_PREFIX = "image";
+    private static final String OUTPUT_PREFIX = "output";
+    private static final String RES_PREFIX = "res";
+    private static final String ADD_PREFIX = "add";
+    private static final String REMOVE_PREFIX = "remove";
+    private static final String SPACE_PREFIX = " ";
     private static final String RES_UP = "res up";
     private static final String RES_DOWN = "res down";
-    private static final String REMOVE_PREFIX = "remove ";
-    private static final String RES_PREFIX = "res ";
 
 
     private static final int SINGLE_CHAR = 1;
@@ -56,6 +57,7 @@ public class Shell {
     private static final String RES_UPDATE_MESSAGE = "Resolution set to ";
     private static final String IO_EXPECTION = "Did not execute due to problem with image file.";
     private static final String INVALID_COMMAND = "Did not execute due to incorrect command.";
+    private static final String EMPTY_CHARSET_MESSAGE = "Did not execute. Charset is empty.";
 
 
     private AsciiOutput output;
@@ -89,7 +91,7 @@ public class Shell {
                 handleResDown();
             }
             case OUTPUT_CONSOLE_COMMAND -> {
-                output = new ConsoleAsciiOutput();
+                output = CONSOLE_ASCII_OUTPUT;
             }
             case OUTPUT_HTML_COMMAND -> {
                 output = new HtmlAsciiOutput(OUTPUT_HTML_PATH, FONT);
@@ -218,6 +220,10 @@ public class Shell {
     }
 
     private void runAlgorithm(AsciiArtAlgorithm algorithm) {
+        if (alogithmparameters.getCharMatcher().GetAllCharsSorted().isEmpty()) {
+            System.out.println(EMPTY_CHARSET_MESSAGE);
+            return;
+        }
         char[][] resultChars = algorithm.run();
         output.out(resultChars);
     }
