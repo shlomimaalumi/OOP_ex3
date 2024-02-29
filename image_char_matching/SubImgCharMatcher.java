@@ -28,7 +28,7 @@ public class SubImgCharMatcher {
     /**
      * The character brightness history map.
      */
-    private final HashMap<Character, Float> charBrightnessHistoryMap;
+    private static final HashMap<Character, Float> charBrightnessHistoryMap = new HashMap<>();
 
     /**
      * The mapping of normalized brightness values to characters.
@@ -51,7 +51,6 @@ public class SubImgCharMatcher {
      * @param charset an array of characters forming the character set for the algorithm.
      */
     public SubImgCharMatcher(char[] charset) {
-        this.charBrightnessHistoryMap = new HashMap<>();
         this.floatToCharsMap = new TreeMap<>();
         for (char c : charset) {
             charBrightnessHistoryMap.put(c, getCharBrightness(c));
@@ -104,7 +103,7 @@ public class SubImgCharMatcher {
                 floatToCharsMap.get(cNormalBrightness).contains(c)) {
             return;
         }
-        if (!this.charBrightnessHistoryMap.containsKey(c)) {
+        if (!charBrightnessHistoryMap.containsKey(c)) {
             charBrightnessHistoryMap.put(c, getCharBrightness(c));
         }
         List<Character> cBrightnessList = floatToCharsMap.get(cNormalBrightness);
@@ -235,8 +234,8 @@ public class SubImgCharMatcher {
      */
     private float getCharBrightness(char c) {
         //TODO make this static
-        if (this.charBrightnessHistoryMap.containsKey(c)) {
-            return this.charBrightnessHistoryMap.get(c);
+        if (charBrightnessHistoryMap.containsKey(c)) {
+            return charBrightnessHistoryMap.get(c);
         }
         boolean[][] greyArray = CharConverter.convertToBoolArray(c);
         int count = INITIAL_COUNTER;

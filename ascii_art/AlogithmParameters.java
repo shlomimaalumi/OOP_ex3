@@ -11,7 +11,7 @@ import static java.lang.Math.*;
  * The AlgorithmParameters class holds parameters and methods related to ASCII art generation algorithms. It
  * provides functionality for setting resolution, loading images, and accessing character matchers.
  */
-public class Alogithmparameters {
+public class AlogithmParameters {
 
     /**
      * The initial set of characters used for ASCII conversion.
@@ -58,7 +58,7 @@ public class Alogithmparameters {
      *
      * @throws IOException if an error occurs while loading the default image.
      */
-    Alogithmparameters() throws IOException {
+    AlogithmParameters() throws IOException {
         try {
             this.image = openImage(DEFAULT_PATH);
         } catch (IOException e) {

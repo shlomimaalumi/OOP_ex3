@@ -7,7 +7,6 @@ import ascii_output.HtmlAsciiOutput;
 import java.io.IOException;
 import java.util.List;
 
-//import static jdk.internal.org.jline.utils.Colors.s;
 
 /**
  * The Shell class represents the command-line interface for interacting with the AsciiArtAlgorithm. It
@@ -220,7 +219,7 @@ public class Shell {
     /**
      * Parameters and settings for the ASCII art algorithm.
      */
-    private Alogithmparameters alogithmparameters;
+    private AlogithmParameters alogithmparameters;
 
 
     /**
@@ -228,7 +227,7 @@ public class Shell {
      */
     public void run() {
         try {
-            alogithmparameters = new Alogithmparameters();
+            alogithmparameters = new AlogithmParameters();
         } catch (IOException e) {
             System.out.println(IO_EXPECTION);
         }

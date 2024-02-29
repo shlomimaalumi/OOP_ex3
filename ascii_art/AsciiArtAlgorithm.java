@@ -19,14 +19,14 @@ public class AsciiArtAlgorithm {
     /**
      * The parameters controlling the ASCII art generation algorithm.
      */
-    private final Alogithmparameters parameters;
+    private final AlogithmParameters parameters;
 
     /**
      * Constructs an AsciiArtAlgorithm instance with the specified parameters.
      *
      * @param parameters the algorithm parameters controlling image processing and ASCII art generation.
      */
-    public AsciiArtAlgorithm(Alogithmparameters parameters) {
+    public AsciiArtAlgorithm(AlogithmParameters parameters) {
         this.parameters = parameters;
     }
 
