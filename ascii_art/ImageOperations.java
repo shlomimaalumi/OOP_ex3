@@ -45,7 +45,7 @@ public class ImageOperations {
     /**
      * represent the move 1 left of the list index
      */
-    private static final int LIST_ROTATE = 1;
+    private static final int LAST_INDEX_MOVE = 1;
 
     /**
      * Index of the first character in an array or string.
@@ -103,7 +103,7 @@ public class ImageOperations {
         for (int i = 0; i < (newHeight - height) / HALF_VAL; i++) {
             for (int j = 0; j < newWidth; j++) {
                 pixelArray[i][j] = new Color(WHITE, WHITE, WHITE);
-                pixelArray[newHeight - i - LIST_ROTATE][j] = new Color(WHITE, WHITE, WHITE);
+                pixelArray[newHeight - i - LAST_INDEX_MOVE][j] = new Color(WHITE, WHITE, WHITE);
             }
         }
     }
@@ -120,7 +120,7 @@ public class ImageOperations {
         for (int i = 0; i < (newWidth - width) / HALF_VAL; i++) {
             for (int j = 0; j < newHeight; j++) {
                 pixelArray[j][i] = new Color(WHITE, WHITE, WHITE);
-                pixelArray[j][newWidth - i - LIST_ROTATE] = new Color(WHITE, WHITE, WHITE);
+                pixelArray[j][newWidth - i - LAST_INDEX_MOVE] = new Color(WHITE, WHITE, WHITE);
             }
         }
     }
