@@ -130,6 +130,12 @@ public class Shell {
      */
     private static final char TILDA_CHAR = '~';
 
+    /***
+     * character representing a dot(.) to print in the console
+     * after the resolution is changed.
+     * */
+    private static final char DOT ='.' ;
+
     /**
      * Command string representing all printable ASCII characters.
      */
@@ -272,7 +278,7 @@ public class Shell {
         if (!alogithmparameters.resDown()) {
             System.out.println(RES_EXCEED_WIDTH);
         } else {
-            System.out.println(RES_UPDATE_MESSAGE + alogithmparameters.getResolution());
+            System.out.println(RES_UPDATE_MESSAGE + alogithmparameters.getResolution()+DOT);
         }
     }
 
@@ -283,7 +289,7 @@ public class Shell {
         if (!alogithmparameters.resUp()) {
             System.out.println(RES_EXCEED_WIDTH);
         } else {
-            System.out.println(RES_UPDATE_MESSAGE + alogithmparameters.getResolution());
+            System.out.println(RES_UPDATE_MESSAGE + alogithmparameters.getResolution()+DOT);
         }
     }
 

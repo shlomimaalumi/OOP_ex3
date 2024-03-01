@@ -54,15 +54,20 @@ SubImgCharMatcher::  TreeMap<Float, List<Character>> floatToCharsMap;
    complexity is the size of the members and the addition and removal time complications also occur
    in logarithmic time. Considering that we would like to use a character set for many images we
    wanted to save the search cost.
+   so that we can get the characters that are closest to the brightness we want to match in
+    logarithmic time.
 
-SubImgCharMatcher::   static HashMap<Character, Float> charBrightnessHistoryMap
+SubImgCharMatcher::   static final HashMap<Character, Float> charBrightnessHistoryMap
 
    For keeping the brightness of the characters we used HashMap since we would like to add and
    search only values(brightness value) of certain keys (characters we will work with). It is known
    that adding and searching for keys in HashMap is O(1) and therefore will provide what we want as
    required. Also, the complexity of the place will be O(n) where n is the number of characters we
    will work with throughout the entire run regardless of the honesty of the algorithms that will
-   run at the same time
+   run at the same time.
+   we did it static so we can save the values of the brightness of the characters and not recalculate
+   them every time we run the program.
+
 
 
 brightnessMap::    static  Map<Pair, float[][]> brightnessMap = new HashMap<>();
@@ -72,6 +77,8 @@ brightnessMap::    static  Map<Pair, float[][]> brightnessMap = new HashMap<>();
     complexities of the place: we check in O(1) whether the pair has already been calculated, if so
     we extract the value in O(1) runtime. The complexity of the place is O(n) as the number of
     different calculations we did.
+    so that we can save the brightness values we calculated for the image and resolution and not
+    recalculate them every time we run the program.
 
 
 3. IOException Handling:
@@ -82,6 +89,11 @@ brightnessMap::    static  Map<Pair, float[][]> brightnessMap = new HashMap<>();
    specific error message is printed to the console to inform the user about the problem. For
    example, when opening an image file fails due to an IOException, the message "Did not execute
    due to problem with image file" is printed.
+   in our project, we handle the IOException in the Image class and in the Shell class.
+   just in case the user enters a file that does not exist or the file is not an image file.
+   or in the case of the shell, the user enters a command that does not exist or the command is not
+    in the correct format.
+
 
    Invalid Input Handling:
 
@@ -137,6 +149,8 @@ brightnessMap::    static  Map<Pair, float[][]> brightnessMap = new HashMap<>();
    the Pair class in the AsciiArtAlgorithm, serve the purpose of efficiently caching brightness
    arrays computed for each image-resolution pair. Here's a breakdown of how these changes achieve
    this purpose:
+   so that we can save the brightness values we calculated for the image and resolution and not
+    recalculate them every time we run the program.
 
    Changes in Image Class:
 
@@ -146,6 +160,7 @@ brightnessMap::    static  Map<Pair, float[][]> brightnessMap = new HashMap<>();
    The equals method is overridden to compare two Image objects for equality. It checks if the
    width, height, and pixel values of two images are the same. This ensures that two images with
    the same dimensions and pixel values are considered equal.
+   so that we can compare between two images and know if they are the same or not.
 
 
    hashCode() Method:
@@ -156,13 +171,18 @@ brightnessMap::    static  Map<Pair, float[][]> brightnessMap = new HashMap<>();
 
 
 
+
    Purpose: Efficient Caching: By ensuring that two Image objects with the same dimensions and pixel
    values produce the same hash code and are considered equal, the brightnessMap can efficiently
    cache brightness arrays. When an image-resolution pair is encountered again, the brightnessMap
    can quickly retrieve the corresponding brightness array using the cached value. Optimized Memory
+   space
+
    Usage: Caching brightness arrays prevents redundant computations for identical image-resolution
    pairs, optimizing memory usage and improving performance. Time Complexity: The time complexity
    of retrieving a brightness array from the brightnessMap is O(1) on average, as it involves a
    constant-time hash table lookup. Space Complexity: The space complexity of storing brightness
    arrays in the brightnessMap is O(N), where N is the number of unique image-resolution pairs
    encountered during execution.
+   so that we can save the brightness values we calculated for the image and resolution and not
+    recalculate them every time we run the program.
