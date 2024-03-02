@@ -39,6 +39,9 @@ refael.nagosa,shlomi483
     generating ASCII art from images and providing a user interface for interacting with the
     system.
 
+    ExceptionsType: This class is used for handling different types of errors and exceptional
+     situations that may occur during the execution of the ASCII art application.
+
 
 
 
@@ -92,7 +95,11 @@ brightnessMap::    static  Map<Pair, float[][]> brightnessMap = new HashMap<>();
    in our project, we handle the IOException in the Image class and in the Shell class.
    just in case the user enters a file that does not exist or the file is not an image file.
    or in the case of the shell, the user enters a command that does not exist or the command is not
-    in the correct format.
+   in the correct format.
+   For each of the additional possible errors (when typing a command such as add,
+   remove, output, res or an illegal command) we have created a specific exception class.
+   Hereby, when running the program, we will know how to deal with each of the errors and for
+   each error to throw the specific exception and print the requested message.
 
 
    Invalid Input Handling:
