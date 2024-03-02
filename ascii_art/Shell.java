@@ -312,30 +312,30 @@ public class Shell {
      * Runs a complex command, handling special cases like adding or removing characters from the charset.
      *
      * @param command The command to run.
-     * @throws addException             If an error occurs while adding characters.
-     * @throws removeException          If an error occurs while removing characters.
-     * @throws outputException          If an error occurs while changing the output mode.
-     * @throws resException             If an error occurs while changing the resolution.
-     * @throws invalidCommandException If the command is invalid.
+     * @throws AddException             If an error occurs while adding characters.
+     * @throws RemoveException          If an error occurs while removing characters.
+     * @throws OutputException          If an error occurs while changing the output mode.
+     * @throws ResException             If an error occurs while changing the resolution.
+     * @throws InvalidCommandException If the command is invalid.
      */
-    private void runComplexCommand(String command) throws addException, removeException, outputException,
-            resException, invalidCommandException {
+    private void runComplexCommand(String command) throws AddException, RemoveException, OutputException,
+            ResException, InvalidCommandException {
         if (command.startsWith(ADD_PREFIX + SPACE_PREFIX)) {
             handleAddCommand(command);
         } else if (command.equals(ADD_PREFIX)) {
-            throw new addException(INVALID_ADD_REQUEST);
+            throw new AddException(INVALID_ADD_REQUEST);
         } else if (command.startsWith(REMOVE_PREFIX + SPACE_PREFIX)) {
             handleRemoveCommand(command);
         } else if (command.equals(REMOVE_PREFIX)) {
-            throw new removeException(INVALID_REMOVE_REQUEST);
+            throw new RemoveException(INVALID_REMOVE_REQUEST);
         } else if (command.startsWith(OUTPUT_PREFIX + SPACE_PREFIX) || command.equals(OUTPUT_PREFIX)) {
-            throw new outputException(INVALID_OUTPUT_REQUEST);
+            throw new OutputException(INVALID_OUTPUT_REQUEST);
         } else if (command.startsWith(RES_PREFIX + SPACE_PREFIX) || command.equals(RES_PREFIX)) {
-            throw new resException(INVALID_RES_REQUEST);
+            throw new ResException(INVALID_RES_REQUEST);
         } else if (command.startsWith(CHANGE_IMAGE_PREFIX + SPACE_PREFIX)) {
             handleImageUpdate(command);
         } else {
-            throw new invalidCommandException(INVALID_COMMAND);
+            throw new InvalidCommandException(INVALID_COMMAND);
         }
     }
 
@@ -348,8 +348,8 @@ public class Shell {
         try {
             runComplexCommand(command);
         }
-        catch (addException | removeException | outputException | resException |
-               invalidCommandException e) {
+        catch (AddException | RemoveException | OutputException | ResException |
+               InvalidCommandException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -373,13 +373,13 @@ public class Shell {
      * art generation.
      *
      * @param command The command specifying the characters to add.
-     * @throws addException If an error occurs while executing the command.
+     * @throws AddException If an error occurs while executing the command.
      */
-    private void handleAddCommand(String command) throws addException{
+    private void handleAddCommand(String command) throws AddException {
         try {
             runAddingCommand(command.split(SPACE_REGEX)[ATTER_REGEX]);
-        } catch (addException e) {
-            throw new addException(INVALID_ADD_REQUEST);
+        } catch (AddException e) {
+            throw new AddException(INVALID_ADD_REQUEST);
         }
     }
 
@@ -388,13 +388,13 @@ public class Shell {
      * ASCII art generation.
      *
      * @param command The command specifying the characters to remove.
-     * @throws removeException If an error occurs while executing the command.
+     * @throws RemoveException If an error occurs while executing the command.
      */
-    private void handleRemoveCommand(String command) throws removeException{
+    private void handleRemoveCommand(String command) throws RemoveException {
         try {
             runRemovingCommand(command.split(SPACE_REGEX)[ATTER_REGEX]);
-        } catch (removeException e) {
-            throw new removeException(INVALID_REMOVE_REQUEST);
+        } catch (RemoveException e) {
+            throw new RemoveException(INVALID_REMOVE_REQUEST);
         }
     }
 
@@ -407,7 +407,7 @@ public class Shell {
      *
      * @param command The command specifying the characters to add.
      */
-    private void runAddingCommand(String command) throws addException{
+    private void runAddingCommand(String command) throws AddException {
         if (command.length() == SINGLE_CHAR) {
             alogithmparameters.getCharMatcher().addChar(command.charAt(FIRST_INDEX));
         } else if (command.equals(ALL_CHARS)) {
@@ -421,7 +421,7 @@ public class Shell {
             if (sep.length != TWO_CHARS || sep[FIRST_INDEX].length() != SINGLE_CHAR ||
                     sep[SECOND_INDEX].length() != SINGLE_CHAR) {
 //                System.out.println(INVALID_ADD_REQUEST);
-                throw new addException(INVALID_ADD_REQUEST);
+                throw new AddException(INVALID_ADD_REQUEST);
             } else {
                 addCharsInRange(sep[FIRST_INDEX].charAt(FIRST_INDEX),
                         sep[SECOND_INDEX].charAt(FIRST_INDEX));
@@ -452,7 +452,7 @@ public class Shell {
      *
      * @param command The command specifying the characters to remove.
      */
-    private void runRemovingCommand(String command) throws removeException{
+    private void runRemovingCommand(String command) throws RemoveException {
         if (command.length() == SINGLE_CHAR) {
             alogithmparameters.getCharMatcher().removeChar(command.charAt(FIRST_INDEX));
         } else if (command.equals(ALL_CHARS)) {
@@ -465,7 +465,7 @@ public class Shell {
             String[] sep = command.split(MINUS_REGEX);
             if (sep.length != TWO_CHARS || sep[FIRST_INDEX].length() != SINGLE_CHAR ||
                     sep[SECOND_INDEX].length() != SINGLE_CHAR) {
-                throw new removeException(INVALID_REMOVE_REQUEST);
+                throw new RemoveException(INVALID_REMOVE_REQUEST);
             } else {
                 removeCharsInRange(sep[FIRST_INDEX].charAt(FIRST_INDEX),
                         sep[SECOND_INDEX].charAt(FIRST_INDEX));
