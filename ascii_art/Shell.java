@@ -312,6 +312,11 @@ public class Shell {
      * Runs a complex command, handling special cases like adding or removing characters from the charset.
      *
      * @param command The command to run.
+     * @throws addException             If an error occurs while adding characters.
+     * @throws removeException          If an error occurs while removing characters.
+     * @throws outputException          If an error occurs while changing the output mode.
+     * @throws resException             If an error occurs while changing the resolution.
+     * @throws invalidCommandException If the command is invalid.
      */
     private void runComplexCommand(String command) throws addException, removeException, outputException,
             resException, invalidCommandException {
@@ -334,6 +339,11 @@ public class Shell {
         }
     }
 
+    /**
+     * Handles a complex command, catching and printing any exceptions that may occur during execution.
+     *
+     * @param command The command to handle.
+     */
     private void handleComplexCommand(String command) {
         try {
             runComplexCommand(command);
@@ -358,6 +368,13 @@ public class Shell {
         }
     }
 
+    /**
+     * Handles the execution of an "add" command, which adds characters to the charset used for ASCII
+     * art generation.
+     *
+     * @param command The command specifying the characters to add.
+     * @throws addException If an error occurs while executing the command.
+     */
     private void handleAddCommand(String command) throws addException{
         try {
             runAddingCommand(command.split(SPACE_REGEX)[ATTER_REGEX]);
@@ -366,6 +383,13 @@ public class Shell {
         }
     }
 
+    /**
+     * Handles the execution of a "remove" command, which removes characters from the charset used for
+     * ASCII art generation.
+     *
+     * @param command The command specifying the characters to remove.
+     * @throws removeException If an error occurs while executing the command.
+     */
     private void handleRemoveCommand(String command) throws removeException{
         try {
             runRemovingCommand(command.split(SPACE_REGEX)[ATTER_REGEX]);
