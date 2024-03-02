@@ -21,7 +21,7 @@ public class AlogithmParameters {
     /**
      * The default path to the image file.
      */
-    private static final String DEFAULT_PATH = "examples/cat.jpeg";
+    private static final String DEFAULT_PATH = "cat.jpeg";
 
     /**
      * The default resolution for image processing.
