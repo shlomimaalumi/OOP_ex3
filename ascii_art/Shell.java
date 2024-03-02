@@ -266,7 +266,7 @@ public class Shell {
             case OUTPUT_HTML_COMMAND -> output = HTML_ASCII_OUTPUT;
             case ASCII_ART_COMMAND -> runAlgorithm(algorithm);
             case CHARS -> printAllCharsSorted();
-            default -> runComplexCommand(command);
+            default -> handleComplexCommand(command);
         }
         return true;
     }
@@ -313,24 +313,34 @@ public class Shell {
      *
      * @param command The command to run.
      */
-    private void runComplexCommand(String command) {
-
+    private void runComplexCommand(String command) throws addException, removeException, outputException,
+            resException, invalidCommandException {
         if (command.startsWith(ADD_PREFIX + SPACE_PREFIX)) {
-            runAddingCommand(command.split(SPACE_REGEX)[ATTER_REGEX]);
+            handleAddCommand(command);
         } else if (command.equals(ADD_PREFIX)) {
-            System.out.println(INVALID_ADD_REQUEST);
+            throw new addException(INVALID_ADD_REQUEST);
         } else if (command.startsWith(REMOVE_PREFIX + SPACE_PREFIX)) {
-            runRemovingCommand(command.split(SPACE_REGEX)[ATTER_REGEX]);
+            handleRemoveCommand(command);
         } else if (command.equals(REMOVE_PREFIX)) {
-            System.out.println(INVALID_REMOVE_REQUEST);
+            throw new removeException(INVALID_REMOVE_REQUEST);
         } else if (command.startsWith(OUTPUT_PREFIX + SPACE_PREFIX) || command.equals(OUTPUT_PREFIX)) {
-            System.out.println(INVALID_OUTPUT_REQUEST);
+            throw new outputException(INVALID_OUTPUT_REQUEST);
         } else if (command.startsWith(RES_PREFIX + SPACE_PREFIX) || command.equals(RES_PREFIX)) {
-            System.out.println(INVALID_RES_REQUEST);
+            throw new resException(INVALID_RES_REQUEST);
         } else if (command.startsWith(CHANGE_IMAGE_PREFIX + SPACE_PREFIX)) {
             handleImageUpdate(command);
         } else {
-            System.out.println(INVALID_COMMAND);
+            throw new invalidCommandException(INVALID_COMMAND);
+        }
+    }
+
+    private void handleComplexCommand(String command) {
+        try {
+            runComplexCommand(command);
+        }
+        catch (addException | removeException | outputException | resException |
+               invalidCommandException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -348,6 +358,22 @@ public class Shell {
         }
     }
 
+    private void handleAddCommand(String command) throws addException{
+        try {
+            runAddingCommand(command.split(SPACE_REGEX)[ATTER_REGEX]);
+        } catch (addException e) {
+            throw new addException(INVALID_ADD_REQUEST);
+        }
+    }
+
+    private void handleRemoveCommand(String command) throws removeException{
+        try {
+            runRemovingCommand(command.split(SPACE_REGEX)[ATTER_REGEX]);
+        } catch (removeException e) {
+            throw new removeException(INVALID_REMOVE_REQUEST);
+        }
+    }
+
     /**
      * Runs a command to add characters to the charset used for ASCII art generation. If the command
      * specifies a single character, it adds that character to the charset. If the command is "all", it adds
@@ -357,7 +383,7 @@ public class Shell {
      *
      * @param command The command specifying the characters to add.
      */
-    private void runAddingCommand(String command) {
+    private void runAddingCommand(String command) throws addException{
         if (command.length() == SINGLE_CHAR) {
             alogithmparameters.getCharMatcher().addChar(command.charAt(FIRST_INDEX));
         } else if (command.equals(ALL_CHARS)) {
@@ -370,7 +396,8 @@ public class Shell {
             String[] sep = command.split(MINUS_REGEX);
             if (sep.length != TWO_CHARS || sep[FIRST_INDEX].length() != SINGLE_CHAR ||
                     sep[SECOND_INDEX].length() != SINGLE_CHAR) {
-                System.out.println(INVALID_ADD_REQUEST);
+//                System.out.println(INVALID_ADD_REQUEST);
+                throw new addException(INVALID_ADD_REQUEST);
             } else {
                 addCharsInRange(sep[FIRST_INDEX].charAt(FIRST_INDEX),
                         sep[SECOND_INDEX].charAt(FIRST_INDEX));
@@ -401,7 +428,7 @@ public class Shell {
      *
      * @param command The command specifying the characters to remove.
      */
-    private void runRemovingCommand(String command) {
+    private void runRemovingCommand(String command) throws removeException{
         if (command.length() == SINGLE_CHAR) {
             alogithmparameters.getCharMatcher().removeChar(command.charAt(FIRST_INDEX));
         } else if (command.equals(ALL_CHARS)) {
@@ -414,7 +441,7 @@ public class Shell {
             String[] sep = command.split(MINUS_REGEX);
             if (sep.length != TWO_CHARS || sep[FIRST_INDEX].length() != SINGLE_CHAR ||
                     sep[SECOND_INDEX].length() != SINGLE_CHAR) {
-                System.out.println(INVALID_REMOVE_REQUEST);
+                throw new removeException(INVALID_REMOVE_REQUEST);
             } else {
                 removeCharsInRange(sep[FIRST_INDEX].charAt(FIRST_INDEX),
                         sep[SECOND_INDEX].charAt(FIRST_INDEX));
