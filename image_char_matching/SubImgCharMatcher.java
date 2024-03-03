@@ -99,6 +99,11 @@ public class SubImgCharMatcher {
      */
     public void addChar(char c) {
         float cNormalBrightness = normalBrightness(c);
+        if (floatToCharsMap.isEmpty()){
+            minCharBrightness = getCharBrightness(c);
+            maxCharBrightness=getCharBrightness(c);
+
+        }
         if (floatToCharsMap.containsKey(cNormalBrightness) &&
                 floatToCharsMap.get(cNormalBrightness).contains(c)) {
             return;
@@ -227,7 +232,7 @@ public class SubImgCharMatcher {
      * @return true if the maximum brightness is updated, otherwise false.
      */
     private boolean updateMax(char c) {
-        if (charBrightnessHistoryMap.get(c) > maxCharBrightness) {
+        if (charBrightnessHistoryMap.get(c) > maxCharBrightness ) {
             maxCharBrightness = charBrightnessHistoryMap.get(c);
             return true;
         }
