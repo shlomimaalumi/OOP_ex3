@@ -227,6 +227,10 @@ public class Shell {
      */
     private AlogithmParameters alogithmparameters;
 
+    /**
+     * Constructs a new instance of the Shell class.
+     */
+    private Shell() {}
 
     /**
      * Runs the shell, providing a command-line interface for interacting with the ASCII art algorithm.
