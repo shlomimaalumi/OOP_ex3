@@ -78,17 +78,17 @@ public class ImageOperations {
      * @return a 2D array containing grayscale brightness values for each sub-image.
      */
     public static float[][] greyBrightnessesByResolution(Image image, int resolution) {
-        // Resize the image to the nearest power of 2
+        // Resize the image to the nearest power of 2, to ensure that it can be divided into sub-images
+        // of the specified resolution
         image = resize(image);
-        // Divide the resized image into sub-images
+        // Divide the resized image into sub-images with the specified resolution and get grayscale
+        // brightness values for each sub-image.
         Image[][] subImages = divideImage(image, resolution);
-        // Get grayscale brightness values for each sub-image
+        // Get grayscale brightness values for each sub-image and return the 2D array.
         return getBrightnessArray(subImages);
     }
 
     //endregion
-
-
     //region PRIVATE METHODS
 
     /**
@@ -169,10 +169,21 @@ public class ImageOperations {
         int newWidth = findClosestPowerOf2(width);
         int newHeight = findClosestPowerOf2(height);
         Color[][] pixelArray = new Color[newHeight][newWidth];
+        rappedImage(image, pixelArray, height, newHeight, newWidth, width);
+        return new Image(pixelArray, newWidth, newHeight);
+    }
+
+    /**
+     * Resizes the image to the nearest power of 2. modify in place the pixel array to match the new size of
+     * the image.
+     *
+     * @param image the original image.
+     */
+    private static void rappedImage(Image image, Color[][] pixelArray, int height, int newHeight,
+                                    int newWidth, int width) {
         addRows(pixelArray, height, newHeight, newWidth);
         addCols(pixelArray, width, newWidth, newHeight);
         fillOriginalImage(image, pixelArray, width, newWidth, height, newHeight);
-        return new Image(pixelArray, newWidth, newHeight);
     }
 
     /**
@@ -204,14 +215,25 @@ public class ImageOperations {
         for (int i = 0; i < image.getHeight(); i++) {
             for (int j = 0; j < image.getWidth(); j++) {
                 Color color = image.getPixel(i, j);
-                int red = color.getRed();
-                int green = color.getGreen();
-                int blue = color.getBlue();
-                float greyVal = red * RED_RATIO + blue * BLUE_RATIO + green * GREEN_RATIO;
+                float greyVal = getGreyVal(color);
                 val += greyVal;
             }
         }
         return val / (image.getHeight() * image.getWidth() * MAX_ASCII);
+    }
+
+
+    /**
+     * Calculates the grayscale value of a given color.
+     *
+     * @param color the input color.
+     * @return the grayscale value of the color.
+     */
+    private static float getGreyVal(Color color) {
+        int red = color.getRed();
+        int green = color.getGreen();
+        int blue = color.getBlue();
+        return red * RED_RATIO + blue * BLUE_RATIO + green * GREEN_RATIO;
     }
 
     /**
@@ -224,13 +246,13 @@ public class ImageOperations {
     private static Image[][] divideImage(Image image, int resolution) {
         int resolutionSize = image.getWidth() / resolution;
         int numOfRows = image.getHeight() / resolutionSize;
-        Image[][] imageArray = new Image[numOfRows][resolution];
+        Image[][] subImagesArray = new Image[numOfRows][resolution];
         for (int i = 0; i < numOfRows; i++) {
             for (int j = 0; j < resolution; j++) {
-                imageArray[i][j] = getSubImage(image, i, j, resolutionSize);
+                subImagesArray[i][j] = getSubImage(image, i, j, resolutionSize);
             }
         }
-        return imageArray;
+        return subImagesArray;
     }
 
     /**

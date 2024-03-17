@@ -61,6 +61,7 @@ public class AlogithmParameters {
 
 
     //region API
+
     /**
      * Constructs an AlgorithmParameters instance with default settings.
      *
@@ -74,16 +75,6 @@ public class AlogithmParameters {
         }
         resolution = DEFAUL_RESOLUTION;
         charMatcher = new SubImgCharMatcher(INIT_CHARS);
-    }
-
-    /**
-     * Calculates the highest power of 2 less than or equal to the given number.
-     *
-     * @param num the input number.
-     * @return the highest power of 2 less than or equal to the input number.
-     */
-    private int getHighestPow2(int num) {
-        return MIN_POW << (int) Math.ceil(Math.log(num) / Math.log(BASE_TWO));
     }
 
 
@@ -159,6 +150,16 @@ public class AlogithmParameters {
 
 
     //region PRIVATE METHODS
+
+    /**
+     * Calculates the highest power of 2 less than or equal to the given number.
+     *
+     * @param num the input number.
+     * @return the highest power of 2 less than or equal to the input number.
+     */
+    private int getHighestPow2(int num) {
+        return MIN_POW << (int) Math.ceil(Math.log(num) / Math.log(BASE_TWO));
+    }
 
     /**
      * Opens an image file located at the specified path.

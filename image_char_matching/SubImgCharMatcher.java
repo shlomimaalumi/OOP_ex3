@@ -3,11 +3,11 @@ package image_char_matching;
 import java.util.*;
 
 /**
- * The SubImgCharMatcher class provides methods to match characters to image brightness values using a
- * custom character set.
+ * The SubImgCharMatcher class provides methods to match characters to image brightness values using a custom
+ * character set.
  */
 public class SubImgCharMatcher {
-
+    //region CONSTANT VARIABLES
     /**
      * The default space character.
      */
@@ -24,12 +24,14 @@ public class SubImgCharMatcher {
      * init a counter value to 1
      */
     private static final int NEXT_COUNTER = 1;
-
+    //endregion
+    //region STATIC VARIABLES
     /**
      * The character brightness history map.
      */
     private static final HashMap<Character, Float> charBrightnessHistoryMap = new HashMap<>();
-
+    //endregion
+    //region PRIVATE VARIABLES
     /**
      * The mapping of normalized brightness values to characters.
      */
@@ -44,6 +46,11 @@ public class SubImgCharMatcher {
      * The maximum character brightness value.
      */
     private float maxCharBrightness = Float.MIN_VALUE;
+
+    //endregion
+
+
+    //region API
 
     /**
      * Constructs a SubImgCharMatcher object with the specified character set.
@@ -79,17 +86,34 @@ public class SubImgCharMatcher {
         Map.Entry<Float, List<Character>> closestBrightnessUp =
                 floatToCharsMap.higherEntry((float) brightness);
 
+        Character closestBrightnessUp1 = getClosestCharacter((float) brightness, closestBrightnessUp,
+                closestBrightnessDown);
+        if (closestBrightnessUp1 != null)
+            return closestBrightnessUp1;
+        return SPACE_CHAR;
+    }
+
+    /**
+     * Retrieves the closest character brightness value to the specified brightness value.
+     *
+     * @param brightness the brightness value of the image.
+     * @return the character corresponding to the given brightness value.
+     * @throws RuntimeException if the character set is empty.
+     */
+    private Character getClosestCharacter(float brightness,
+                                          Map.Entry<Float, List<Character>> closestBrightnessUp,
+                                          Map.Entry<Float, List<Character>> closestBrightnessDown) {
         float disFromUp = (closestBrightnessUp != null) ?
-                Math.abs(closestBrightnessUp.getKey() - (float) brightness) : Float.MAX_VALUE;
+                Math.abs(closestBrightnessUp.getKey() - brightness) : Float.MAX_VALUE;
         float disFromDown = (closestBrightnessDown != null) ?
-                Math.abs(closestBrightnessDown.getKey() - (float) brightness) : Float.MAX_VALUE;
+                Math.abs(closestBrightnessDown.getKey() - brightness) : Float.MAX_VALUE;
 
         if (closestBrightnessUp != null && disFromUp < disFromDown) {
             return asciiMinValue(closestBrightnessUp.getValue());
         } else if (closestBrightnessDown != null) {
             return asciiMinValue(closestBrightnessDown.getValue());
         }
-        return SPACE_CHAR;
+        return null;
     }
 
     /**
@@ -99,9 +123,9 @@ public class SubImgCharMatcher {
      */
     public void addChar(char c) {
         float cNormalBrightness = normalBrightness(c);
-        if (floatToCharsMap.isEmpty()){
+        if (floatToCharsMap.isEmpty()) {
             minCharBrightness = getCharBrightness(c);
-            maxCharBrightness=getCharBrightness(c);
+            maxCharBrightness = getCharBrightness(c);
 
         }
         if (floatToCharsMap.containsKey(cNormalBrightness) &&
@@ -111,16 +135,9 @@ public class SubImgCharMatcher {
         if (!charBrightnessHistoryMap.containsKey(c)) {
             charBrightnessHistoryMap.put(c, getCharBrightness(c));
         }
-        List<Character> cBrightnessList = floatToCharsMap.get(cNormalBrightness);
-        if (cBrightnessList == null) {
-            floatToCharsMap.put(cNormalBrightness, new ArrayList<>());
-            cBrightnessList = floatToCharsMap.get(cNormalBrightness);
-        }
-        cBrightnessList.add(c);
-        if (updateMin(c) || updateMax(c)) {
-            updateNormalMap();
-        }
+        updateMinMaxAfterAdding(c, cNormalBrightness);
     }
+
 
     /**
      * Retrieves a sorted list of all characters in the character set.
@@ -149,12 +166,45 @@ public class SubImgCharMatcher {
                 !floatToCharsMap.get(cNormalBrightness).contains(c)) {
             return;
         }
+        updateMinMaxAfterRemoving(c);
+    }
+
+
+    //endregion
+    //region PRIVATE METHODS
+
+
+    /**
+     * updates the character brightness history map after a character removal.
+     *
+     * @param c the character being removed.
+     */
+    private void updateMinMaxAfterRemoving(char c) {
         List<Character> cBrightnessList = floatToCharsMap.get(normalBrightness(c));
         cBrightnessList.removeIf(element -> Objects.equals(element, c));
         if (cBrightnessList.isEmpty()) {
             floatToCharsMap.remove(normalBrightness(c), cBrightnessList);
         }
         if (checkMinUpdate(c) || checkMaxUpdate(c)) {
+            updateNormalMap();
+        }
+    }
+
+    /**
+     * Updates the minimum and maximum character brightness values after a character addition. in addition to
+     * updating the mapping of normalized brightness values to characters.
+     *
+     * @param c                 The character being added.
+     * @param cNormalBrightness The normalized brightness value of the character.
+     */
+    private void updateMinMaxAfterAdding(char c, float cNormalBrightness) {
+        List<Character> cBrightnessList = floatToCharsMap.get(cNormalBrightness);
+        if (cBrightnessList == null) {
+            floatToCharsMap.put(cNormalBrightness, new ArrayList<>());
+            cBrightnessList = floatToCharsMap.get(cNormalBrightness);
+        }
+        cBrightnessList.add(c);
+        if (updateMin(c) || updateMax(c)) {
             updateNormalMap();
         }
     }
@@ -182,7 +232,7 @@ public class SubImgCharMatcher {
      * @return true if the maximum brightness needs to be updated, otherwise false.
      */
     private boolean checkMaxUpdate(char c) {
-        if(floatToCharsMap.isEmpty()) {
+        if (floatToCharsMap.isEmpty()) {
             maxCharBrightness = Float.MIN_VALUE;
             return true;
         }
@@ -200,7 +250,7 @@ public class SubImgCharMatcher {
      * @return true if the minimum brightness needs to be updated, otherwise false.
      */
     private boolean checkMinUpdate(char c) {
-        if(floatToCharsMap.isEmpty()) {
+        if (floatToCharsMap.isEmpty()) {
             minCharBrightness = Float.MAX_VALUE;
             return true;
         }
@@ -232,7 +282,7 @@ public class SubImgCharMatcher {
      * @return true if the maximum brightness is updated, otherwise false.
      */
     private boolean updateMax(char c) {
-        if (charBrightnessHistoryMap.get(c) > maxCharBrightness ) {
+        if (charBrightnessHistoryMap.get(c) > maxCharBrightness) {
             maxCharBrightness = charBrightnessHistoryMap.get(c);
             return true;
         }
@@ -306,4 +356,6 @@ public class SubImgCharMatcher {
 
         }
     }
+
+    //endregion
 }

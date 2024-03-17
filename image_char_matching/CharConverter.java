@@ -45,7 +45,7 @@ public class CharConverter {
      * @return A 2D array of booleans representing the binary image of the character.
      */
     public static boolean[][] convertToBoolArray(char c) {
-        BufferedImage img = getBufferedImage(c, FONT_NAME, DEFAULT_PIXEL_RESOLUTION);
+        BufferedImage img = getBufferedImage(c);
         boolean[][] matrix = new boolean[DEFAULT_PIXEL_RESOLUTION][DEFAULT_PIXEL_RESOLUTION];
         for (int y = 0; y < DEFAULT_PIXEL_RESOLUTION; y++) {
             for (int x = 0; x < DEFAULT_PIXEL_RESOLUTION; x++) {
@@ -64,19 +64,17 @@ public class CharConverter {
      * Generates a BufferedImage for rendering the specified character with the given font and pixel
      * resolution.
      *
-     * @param c            The character to render.
-     * @param fontName     The name of the font to use.
-     * @param pixelsPerRow The pixel resolution of the image.
+     * @param c The character to render.
      * @return The BufferedImage representing the rendered character.
      */
-    private static BufferedImage getBufferedImage(char c, String fontName, int pixelsPerRow) {
+    private static BufferedImage getBufferedImage(char c) {
         String charStr = Character.toString(c);
-        Font font = new Font(fontName, Font.PLAIN, pixelsPerRow);
-        BufferedImage img = new BufferedImage(pixelsPerRow, pixelsPerRow, BufferedImage.TYPE_INT_ARGB);
+        Font font = new Font(CharConverter.FONT_NAME, Font.PLAIN, CharConverter.DEFAULT_PIXEL_RESOLUTION);
+        BufferedImage img = new BufferedImage(CharConverter.DEFAULT_PIXEL_RESOLUTION, CharConverter.DEFAULT_PIXEL_RESOLUTION, BufferedImage.TYPE_INT_ARGB);
         Graphics g = img.getGraphics();
         g.setFont(font);
-        int xOffset = (int) Math.round(pixelsPerRow * X_OFFSET_FACTOR);
-        int yOffset = (int) Math.round(pixelsPerRow * Y_OFFSET_FACTOR);
+        int xOffset = (int) Math.round(CharConverter.DEFAULT_PIXEL_RESOLUTION * X_OFFSET_FACTOR);
+        int yOffset = (int) Math.round(CharConverter.DEFAULT_PIXEL_RESOLUTION * Y_OFFSET_FACTOR);
         g.drawString(charStr, xOffset, yOffset);
         return img;
     }

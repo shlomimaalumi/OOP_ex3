@@ -29,8 +29,6 @@ public class Shell {
      */
     private static final HtmlAsciiOutput HTML_ASCII_OUTPUT = new HtmlAsciiOutput(OUTPUT_HTML_PATH, FONT);
     //endregion
-
-
     //region PRIVATE MEMBERS
     /**
      * Current output mode for ASCII art rendering.
@@ -42,6 +40,7 @@ public class Shell {
      */
     private AlogithmParameters alogithmparameters;
     //endregion
+
 
     //region API
 
@@ -71,8 +70,6 @@ public class Shell {
         }
     }
     //endregion
-
-
     //region PRIVATE METHODS
 
     /**
@@ -235,20 +232,25 @@ public class Shell {
      */
     private void runAddingCommand(String command) throws AddException {
         if (command.length() == SINGLE_CHAR) {
+            // Add a single character
             alogithmparameters.getCharMatcher().addChar(command.charAt(FIRST_INDEX));
         } else if (command.equals(ALL_CHARS)) {
             for (char c = SPACE_CHAR; c <= TILDA_CHAR; c++) {
+                // Add all printable ASCII characters
                 alogithmparameters.getCharMatcher().addChar(c);
             }
         } else if (command.equals(SPACE)) {
+            // Add space character
             alogithmparameters.getCharMatcher().addChar(SPACE_CHAR);
         } else {
             String[] sep = command.split(MINUS_REGEX);
+            // Add characters in the specified range
             if (sep.length != TWO_CHARS || sep[FIRST_INDEX].length() != SINGLE_CHAR ||
+                    // Check if the command format is valid
                     sep[SECOND_INDEX].length() != SINGLE_CHAR) {
-//                System.out.println(INVALID_ADD_REQUEST);
                 throw new AddException(INVALID_ADD_REQUEST);
             } else {
+                // Add characters in the specified range
                 addCharsInRange(sep[FIRST_INDEX].charAt(FIRST_INDEX),
                         sep[SECOND_INDEX].charAt(FIRST_INDEX));
             }
@@ -280,19 +282,25 @@ public class Shell {
      */
     private void runRemovingCommand(String command) throws RemoveException {
         if (command.length() == SINGLE_CHAR) {
+            // Remove a single character
             alogithmparameters.getCharMatcher().removeChar(command.charAt(FIRST_INDEX));
         } else if (command.equals(ALL_CHARS)) {
             for (char c = SPACE_CHAR; c <= TILDA_CHAR; c++) {
+                // Remove all printable ASCII characters
                 alogithmparameters.getCharMatcher().removeChar(c);
             }
         } else if (command.equals(SPACE)) {
+            // Remove space character
             alogithmparameters.getCharMatcher().removeChar(SPACE_CHAR);
         } else {
+            // Remove characters in the specified range
             String[] sep = command.split(MINUS_REGEX);
             if (sep.length != TWO_CHARS || sep[FIRST_INDEX].length() != SINGLE_CHAR ||
                     sep[SECOND_INDEX].length() != SINGLE_CHAR) {
+                // Check if the command format is valid
                 throw new RemoveException(INVALID_REMOVE_REQUEST);
             } else {
+                // Remove characters in the specified range
                 removeCharsInRange(sep[FIRST_INDEX].charAt(FIRST_INDEX),
                         sep[SECOND_INDEX].charAt(FIRST_INDEX));
             }
