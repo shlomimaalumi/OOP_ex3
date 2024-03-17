@@ -1,6 +1,7 @@
 package ascii_art;
 
 import image.Image;
+import image.ImageToBrightnessesFacade;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,7 +50,7 @@ public class AsciiArtAlgorithm {
             brightnessArray = brightnessMap.get(imageVsResolution);
         } else {
             // Compute brightness array for the image at the specified resolution
-            brightnessArray = ImageOperations.greyBrightnessesByResolution(parameters.getImage(),
+            brightnessArray = ImageToBrightnessesFacade.greyBrightnessesByResolution(parameters.getImage(),
                     parameters.getResolution());
             // Cache the computed brightness array
             brightnessMap.put(imageVsResolution, brightnessArray);

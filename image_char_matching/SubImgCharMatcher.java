@@ -93,28 +93,6 @@ public class SubImgCharMatcher {
         return SPACE_CHAR;
     }
 
-    /**
-     * Retrieves the closest character brightness value to the specified brightness value.
-     *
-     * @param brightness the brightness value of the image.
-     * @return the character corresponding to the given brightness value.
-     * @throws RuntimeException if the character set is empty.
-     */
-    private Character getClosestCharacter(float brightness,
-                                          Map.Entry<Float, List<Character>> closestBrightnessUp,
-                                          Map.Entry<Float, List<Character>> closestBrightnessDown) {
-        float disFromUp = (closestBrightnessUp != null) ?
-                Math.abs(closestBrightnessUp.getKey() - brightness) : Float.MAX_VALUE;
-        float disFromDown = (closestBrightnessDown != null) ?
-                Math.abs(closestBrightnessDown.getKey() - brightness) : Float.MAX_VALUE;
-
-        if (closestBrightnessUp != null && disFromUp < disFromDown) {
-            return asciiMinValue(closestBrightnessUp.getValue());
-        } else if (closestBrightnessDown != null) {
-            return asciiMinValue(closestBrightnessDown.getValue());
-        }
-        return null;
-    }
 
     /**
      * Adds a character to the character set.
@@ -173,6 +151,28 @@ public class SubImgCharMatcher {
     //endregion
     //region PRIVATE METHODS
 
+    /**
+     * Retrieves the closest character brightness value to the specified brightness value.
+     *
+     * @param brightness the brightness value of the image.
+     * @return the character corresponding to the given brightness value.
+     * @throws RuntimeException if the character set is empty.
+     */
+    private Character getClosestCharacter(float brightness,
+                                          Map.Entry<Float, List<Character>> closestBrightnessUp,
+                                          Map.Entry<Float, List<Character>> closestBrightnessDown) {
+        float disFromUp = (closestBrightnessUp != null) ?
+                Math.abs(closestBrightnessUp.getKey() - brightness) : Float.MAX_VALUE;
+        float disFromDown = (closestBrightnessDown != null) ?
+                Math.abs(closestBrightnessDown.getKey() - brightness) : Float.MAX_VALUE;
+
+        if (closestBrightnessUp != null && disFromUp < disFromDown) {
+            return asciiMinValue(closestBrightnessUp.getValue());
+        } else if (closestBrightnessDown != null) {
+            return asciiMinValue(closestBrightnessDown.getValue());
+        }
+        return null;
+    }
 
     /**
      * updates the character brightness history map after a character removal.
