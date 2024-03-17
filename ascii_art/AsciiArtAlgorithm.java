@@ -56,20 +56,11 @@ public class AsciiArtAlgorithm {
             brightnessMap.put(imageVsResolution, brightnessArray);
         }
 
-        char[][] asciiArt = new char[brightnessArray.length][brightnessArray[0].length];
-
-        // Convert brightness values to ASCII characters
-        for (int i = 0; i < brightnessArray.length; i++) {
-            for (int j = 0; j < brightnessArray[i].length; j++) {
-                asciiArt[i][j] = parameters.getCharMatcher().getCharByImageBrightness(brightnessArray[i][j]);
-            }
-        }
-
-        return asciiArt;
+        return getCharsList(brightnessArray);
     }
+
+
     //endregion
-
-
     //region PRIVATE METHODS
 
     /**
@@ -130,5 +121,22 @@ public class AsciiArtAlgorithm {
 
     }
 
+    /**
+     * Gets the parameters controlling the ASCII art generation algorithm.
+     *
+     * @return the algorithm parameters.
+     */
+    private char[][] getCharsList(float[][] brightnessArray) {
+        char[][] asciiArt = new char[brightnessArray.length][brightnessArray[0].length];
+
+        // Convert brightness values to ASCII characters
+        for (int i = 0; i < brightnessArray.length; i++) {
+            for (int j = 0; j < brightnessArray[i].length; j++) {
+                asciiArt[i][j] = parameters.getCharMatcher().getCharByImageBrightness(brightnessArray[i][j]);
+            }
+        }
+
+        return asciiArt;
+    }
     //endregion
 }
