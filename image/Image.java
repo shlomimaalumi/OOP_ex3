@@ -13,7 +13,7 @@ import java.io.IOException;
  * @author Dan Nirel
  */
 public class Image {
-
+    //region STATIC VARIABLES
     /**
      * A prime number used in the hash code calculation.
      */
@@ -23,7 +23,9 @@ public class Image {
      * Another prime number used in the hash code calculation.
      */
     private static final int SECOND_PRIME = 31;
+    //endregion
 
+    //region PRIVATE VARIABLES
     /**
      * The two-dimensional array representing the pixels of the image.
      */
@@ -38,7 +40,9 @@ public class Image {
      * The height of the image in pixels.
      */
     private final int height;
+    //endregion
 
+    //region CONSTRUCTORS
     /**
      * Constructs an Image object by reading an image file.
      *
@@ -70,7 +74,9 @@ public class Image {
         this.width = width;
         this.height = height;
     }
+    //endregion
 
+    //region API
     /**
      * Compares this image with another object for equality.
      *
@@ -144,24 +150,5 @@ public class Image {
         return pixelArray[x][y];
     }
 
-    /**
-     * Saves the image to a file with the specified file name.
-     *
-     * @param fileName the name of the file to save the image to.
-     */
-    public void saveImage(String fileName) {
-        BufferedImage bufferedImage = new BufferedImage(pixelArray.length, pixelArray[0].length,
-                BufferedImage.TYPE_INT_RGB);
-        for (int x = 0; x < pixelArray.length; x++) {
-            for (int y = 0; y < pixelArray[x].length; y++) {
-                bufferedImage.setRGB(y, x, pixelArray[x][y].getRGB());
-            }
-        }
-        File outputfile = new File(fileName + ".jpeg");
-        try {
-            ImageIO.write(bufferedImage, "jpeg", outputfile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    //endregion
 }

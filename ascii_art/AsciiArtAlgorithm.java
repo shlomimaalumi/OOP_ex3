@@ -10,7 +10,7 @@ import java.util.Map;
  * values calculated from the image and a resolution setting to determine ASCII characters for each pixel.
  */
 public class AsciiArtAlgorithm {
-
+    //region CLASS VARIABLES
     /**
      * A map to cache brightness arrays computed for each image-resolution pair.
      */
@@ -20,6 +20,11 @@ public class AsciiArtAlgorithm {
      * The parameters controlling the ASCII art generation algorithm.
      */
     private final AlogithmParameters parameters;
+
+    //endregion
+
+
+    //region API
 
     /**
      * Constructs an AsciiArtAlgorithm instance with the specified parameters.
@@ -61,6 +66,10 @@ public class AsciiArtAlgorithm {
 
         return asciiArt;
     }
+    //endregion
+
+
+    //region PRIVATE METHODS
 
     /**
      * A utility class representing a pair of an image and a resolution. Used as a key in the brightnessMap
@@ -119,4 +128,6 @@ public class AsciiArtAlgorithm {
 
 
     }
+
+    //endregion
 }

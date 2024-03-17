@@ -12,7 +12,7 @@ import static java.lang.Math.*;
  * provides functionality for setting resolution, loading images, and accessing character matchers.
  */
 public class AlogithmParameters {
-
+    //region STATIC VARIABLES
     /**
      * The initial set of characters used for ASCII conversion.
      */
@@ -28,6 +28,7 @@ public class AlogithmParameters {
      */
     private static final int DEFAUL_RESOLUTION = 128;
 
+
     /**
      * The base used for calculating the highest power of 2.
      */
@@ -37,7 +38,10 @@ public class AlogithmParameters {
      * The minimum power used for calculating the highest power of 2.
      */
     private static final int MIN_POW = 1;
+    //endregion
 
+
+    //region PRIVATE VARIABLES
     /**
      * The character matcher used for matching sub-images to ASCII characters.
      */
@@ -53,6 +57,10 @@ public class AlogithmParameters {
      */
     private Image image;
 
+    //endregion
+
+
+    //region API
     /**
      * Constructs an AlgorithmParameters instance with default settings.
      *
@@ -78,22 +86,6 @@ public class AlogithmParameters {
         return MIN_POW << (int) Math.ceil(Math.log(num) / Math.log(BASE_TWO));
     }
 
-    /**
-     * Opens an image file located at the specified path.
-     *
-     * @param path the path to the image file.
-     * @return the loaded image.
-     * @throws IOException if an error occurs while loading the image.
-     */
-    private Image openImage(String path) throws IOException {
-        Image image;
-        try {
-            image = new Image(path);
-        } catch (IOException e) {
-            throw new IOException(e);
-        }
-        return image;
-    }
 
     /**
      * Increases the resolution by a factor of 2 if possible.
@@ -162,4 +154,28 @@ public class AlogithmParameters {
     SubImgCharMatcher getCharMatcher() {
         return charMatcher;
     }
+
+    //endregion
+
+
+    //region PRIVATE METHODS
+
+    /**
+     * Opens an image file located at the specified path.
+     *
+     * @param path the path to the image file.
+     * @return the loaded image.
+     * @throws IOException if an error occurs while loading the image.
+     */
+    private Image openImage(String path) throws IOException {
+        Image image;
+        try {
+            image = new Image(path);
+        } catch (IOException e) {
+            throw new IOException(e);
+        }
+        return image;
+    }
+
+    //endregion
 }

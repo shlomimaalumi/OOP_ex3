@@ -7,6 +7,8 @@ import ascii_output.HtmlAsciiOutput;
 import java.io.IOException;
 import java.util.List;
 
+import static ascii_art.ShellConstant.*;
+
 
 /**
  * The Shell class represents the command-line interface for interacting with the AsciiArtAlgorithm. It
@@ -15,198 +17,8 @@ import java.util.List;
  * AsciiArtAlgorithm and associated components.
  */
 public class Shell {
-    /**
-     * Command string for changing the output mode to console.
-     */
-    private static final String OUTPUT_CONSOLE_COMMAND = "output console";
 
-    /**
-     * Command string for changing the output mode to HTML.
-     */
-    private static final String OUTPUT_HTML_COMMAND = "output html";
-
-    /**
-     * Default path for the HTML output file.
-     */
-    private static final String OUTPUT_HTML_PATH = "out.html";
-
-    /**
-     * Default font used for ASCII art rendering.
-     */
-    private static final String FONT = "Courier New";
-
-    /**
-     * Command string prefix for user input.
-     */
-    private static final String PREFIX = ">>> ";
-
-    /**
-     * Command string for generating ASCII art.
-     */
-    private static final String ASCII_ART_COMMAND = "asciiArt";
-
-    /**
-     * Command string for exiting the shell.
-     */
-    private static final String EXIT_COMMAND = "exit";
-
-    /**
-     * Prefix for commands related to changing the image.
-     */
-    private static final String CHANGE_IMAGE_PREFIX = "image";
-
-    /**
-     * Prefix for commands related to changing the output mode.
-     */
-    private static final String OUTPUT_PREFIX = "output";
-
-    /**
-     * Prefix for commands related to changing the resolution.
-     */
-    private static final String RES_PREFIX = "res";
-
-    /**
-     * Prefix for commands related to adding characters to the charset.
-     */
-    private static final String ADD_PREFIX = "add";
-
-    /**
-     * Prefix for commands related to removing characters from the charset.
-     */
-    private static final String REMOVE_PREFIX = "remove";
-
-    /**
-     * Prefix for commands requiring space separation.
-     */
-    private static final String SPACE_PREFIX = " ";
-
-    /**
-     * Command string for increasing resolution.
-     */
-    private static final String RES_UP = "res up";
-
-    /**
-     * Command string for decreasing resolution.
-     */
-    private static final String RES_DOWN = "res down";
-
-    /**
-     * Length of a single character.
-     */
-    private static final int SINGLE_CHAR = 1;
-
-    /**
-     * Index of the first character in an array or string.
-     */
-    private static final int FIRST_INDEX = 0;
-
-    /**
-     * Index of the last character in an array or string.
-     */
-    private static final int LAST_INDEX = -1;
-
-    /**
-     * Index of the second character in an array or string.
-     */
-    private static final int SECOND_INDEX = 1;
-
-    /**
-     * Regex group index used for splitting commands.
-     */
-    private static final int ATTER_REGEX = 1;
-
-    /**
-     * Number of characters in a range specifier.
-     */
-    private static final int TWO_CHARS = 2;
-
-    /**
-     * Character representing a space.
-     */
-    private static final char SPACE_CHAR = ' ';
-
-    /**
-     * Character representing a tilde (~).
-     */
-    private static final char TILDA_CHAR = '~';
-
-    /***
-     * character representing a dot(.) to print in the console
-     * after the resolution is changed.
-     * */
-    private static final char DOT ='.' ;
-
-    /**
-     * Command string representing all printable ASCII characters.
-     */
-    private static final String ALL_CHARS = "all";
-
-    /**
-     * Command string representing the space character.
-     */
-    private static final String SPACE = "space";
-
-    /**
-     * Command string for listing all characters in the charset.
-     */
-    private static final String CHARS = "chars";
-
-    /**
-     * Regular expression for splitting commands with spaces.
-     */
-    private static final String SPACE_REGEX = " ";
-
-    /**
-     * Regular expression for splitting range specifiers.
-     */
-    private static final String MINUS_REGEX = "-";
-
-    /**
-     * Error message for an invalid request to add characters.
-     */
-    private static final String INVALID_ADD_REQUEST = "Did not add due to incorrect format.";
-
-    /**
-     * Error message for an invalid request to remove characters.
-     */
-    private static final String INVALID_REMOVE_REQUEST = "Did not remove due to incorrect format.";
-
-    /**
-     * Error message for an invalid request to change the output mode.
-     */
-    private static final String INVALID_OUTPUT_REQUEST = "Did not change output method due to incorrect " +
-            "format.";
-
-    /**
-     * Error message for an invalid request to change the resolution.
-     */
-    private static final String INVALID_RES_REQUEST = "Did not change resolution due to incorrect format.";
-
-    /**
-     * Error message for attempting to change the resolution beyond the image boundaries.
-     */
-    private static final String RES_EXCEED_WIDTH = "Did not change resolution due to exceeding boundaries.";
-
-    /**
-     * Message indicating a successful resolution change.
-     */
-    private static final String RES_UPDATE_MESSAGE = "Resolution set to ";
-
-    /**
-     * Error message for an I/O exception while handling an image file.
-     */
-    private static final String IO_EXPECTION = "Did not execute due to problem with image file.";
-
-    /**
-     * Error message for an invalid command.
-     */
-    private static final String INVALID_COMMAND = "Did not execute due to incorrect command.";
-
-    /**
-     * Error message for attempting to execute a command when the charset is empty.
-     */
-    private static final String EMPTY_CHARSET_MESSAGE = "Did not execute. Charset is empty.";
-
+    //region STATIC MEMBERS
     /**
      * Console output handler for ASCII art.
      */
@@ -216,7 +28,10 @@ public class Shell {
      * HTML output handler for ASCII art.
      */
     private static final HtmlAsciiOutput HTML_ASCII_OUTPUT = new HtmlAsciiOutput(OUTPUT_HTML_PATH, FONT);
+    //endregion
 
+
+    //region PRIVATE MEMBERS
     /**
      * Current output mode for ASCII art rendering.
      */
@@ -226,11 +41,15 @@ public class Shell {
      * Parameters and settings for the ASCII art algorithm.
      */
     private AlogithmParameters alogithmparameters;
+    //endregion
+
+    //region API
 
     /**
      * Constructs a new instance of the Shell class.
      */
-    private Shell() {}
+    public Shell() {
+    }
 
     /**
      * Runs the shell, providing a command-line interface for interacting with the ASCII art algorithm.
@@ -251,6 +70,10 @@ public class Shell {
             }
         }
     }
+    //endregion
+
+
+    //region PRIVATE METHODS
 
     /**
      * Handles the given command.
@@ -282,7 +105,7 @@ public class Shell {
         if (!alogithmparameters.resDown()) {
             System.out.println(RES_EXCEED_WIDTH);
         } else {
-            System.out.println(RES_UPDATE_MESSAGE + alogithmparameters.getResolution()+DOT);
+            System.out.println(RES_UPDATE_MESSAGE + alogithmparameters.getResolution() + DOT);
         }
     }
 
@@ -293,7 +116,7 @@ public class Shell {
         if (!alogithmparameters.resUp()) {
             System.out.println(RES_EXCEED_WIDTH);
         } else {
-            System.out.println(RES_UPDATE_MESSAGE + alogithmparameters.getResolution()+DOT);
+            System.out.println(RES_UPDATE_MESSAGE + alogithmparameters.getResolution() + DOT);
         }
     }
 
@@ -316,10 +139,10 @@ public class Shell {
      * Runs a complex command, handling special cases like adding or removing characters from the charset.
      *
      * @param command The command to run.
-     * @throws AddException             If an error occurs while adding characters.
-     * @throws RemoveException          If an error occurs while removing characters.
-     * @throws OutputException          If an error occurs while changing the output mode.
-     * @throws ResException             If an error occurs while changing the resolution.
+     * @throws AddException            If an error occurs while adding characters.
+     * @throws RemoveException         If an error occurs while removing characters.
+     * @throws OutputException         If an error occurs while changing the output mode.
+     * @throws ResException            If an error occurs while changing the resolution.
      * @throws InvalidCommandException If the command is invalid.
      */
     private void runComplexCommand(String command) throws AddException, RemoveException, OutputException,
@@ -351,9 +174,8 @@ public class Shell {
     private void handleComplexCommand(String command) {
         try {
             runComplexCommand(command);
-        }
-        catch (AddException | RemoveException | OutputException | ResException |
-               InvalidCommandException e) {
+        } catch (AddException | RemoveException | OutputException | ResException |
+                 InvalidCommandException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -373,13 +195,13 @@ public class Shell {
     }
 
     /**
-     * Handles the execution of an "add" command, which adds characters to the charset used for ASCII
-     * art generation.
+     * Handles the execution of an "add" command, which adds characters to the charset used for ASCII art
+     * generation.
      *
      * @param command The command specifying the characters to add.
      * @throws AddException If an error occurs while executing the command.
      */
-    private void handleAddCommand(String command) throws AddException{
+    private void handleAddCommand(String command) throws AddException {
         try {
             runAddingCommand(command.split(SPACE_REGEX)[ATTER_REGEX]);
         } catch (AddException e) {
@@ -388,13 +210,13 @@ public class Shell {
     }
 
     /**
-     * Handles the execution of a "remove" command, which removes characters from the charset used for
-     * ASCII art generation.
+     * Handles the execution of a "remove" command, which removes characters from the charset used for ASCII
+     * art generation.
      *
      * @param command The command specifying the characters to remove.
      * @throws RemoveException If an error occurs while executing the command.
      */
-    private void handleRemoveCommand(String command) throws RemoveException{
+    private void handleRemoveCommand(String command) throws RemoveException {
         try {
             runRemovingCommand(command.split(SPACE_REGEX)[ATTER_REGEX]);
         } catch (RemoveException e) {
@@ -411,7 +233,7 @@ public class Shell {
      *
      * @param command The command specifying the characters to add.
      */
-    private void runAddingCommand(String command) throws AddException{
+    private void runAddingCommand(String command) throws AddException {
         if (command.length() == SINGLE_CHAR) {
             alogithmparameters.getCharMatcher().addChar(command.charAt(FIRST_INDEX));
         } else if (command.equals(ALL_CHARS)) {
@@ -456,7 +278,7 @@ public class Shell {
      *
      * @param command The command specifying the characters to remove.
      */
-    private void runRemovingCommand(String command) throws RemoveException{
+    private void runRemovingCommand(String command) throws RemoveException {
         if (command.length() == SINGLE_CHAR) {
             alogithmparameters.getCharMatcher().removeChar(command.charAt(FIRST_INDEX));
         } else if (command.equals(ALL_CHARS)) {
@@ -505,6 +327,9 @@ public class Shell {
         output.out(resultChars);
     }
 
+    //endregion
+
+
     /**
      * The main method that starts the shell.
      *
@@ -513,5 +338,6 @@ public class Shell {
     public static void main(String[] args) {
         new Shell().run();
     }
+
 }
 

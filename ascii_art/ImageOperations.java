@@ -12,6 +12,8 @@ import java.awt.*;
  */
 public class ImageOperations {
 
+    //region CONSTANT VARIABLES
+
     /**
      * The ratio of red color in brightness calculation.
      */
@@ -62,6 +64,11 @@ public class ImageOperations {
      */
     private static final int HALF_VAL = 2;
 
+    //endregion
+
+
+    //region API
+
     /**
      * Calculates grayscale brightness values for each sub-image of the given image with the specified
      * resolution.
@@ -78,6 +85,11 @@ public class ImageOperations {
         // Get grayscale brightness values for each sub-image
         return getBrightnessArray(subImages);
     }
+
+    //endregion
+
+
+    //region PRIVATE METHODS
 
     /**
      * Finds the closest power of 2 for a given number.
@@ -241,4 +253,6 @@ public class ImageOperations {
         }
         return new Image(pixelArray, resolutionSize, resolutionSize);
     }
+
+    //endregion
 }

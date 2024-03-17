@@ -4,17 +4,14 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
- * Inspired by, and partly copied from
- * https://github.com/korhner/asciimg/blob/95c7764a6abe0e893fae56b3b6b580e09e1de209/src/main/java/io
- * /korhner/asciimg/image/AsciiImgCache.java described in the blog:
- * https://dzone.com/articles/ascii-art-generator-java Adaptations made by Dan Nirel and again by Rachel
- * Behar.
- * The class converts characters to a binary "image" (2D array of booleans).
- * The CharConverter class converts characters to a binary "image" represented by a 2D array of booleans.
- * It renders a given character, according to how it looks in the specified font, to a square black & white
- * image with a specified pixel resolution.
+ * The class converts characters to a binary "image" (2D array of booleans). The CharConverter class converts
+ * characters to a binary "image" represented by a 2D array of booleans. It renders a given character,
+ * according to how it looks in the specified font, to a square black & white image with a specified pixel
+ * resolution.
  */
 public class CharConverter {
+    //region CONSTANTS
+
     /**
      * The factor by which to offset the character rendering horizontally.
      */
@@ -35,6 +32,10 @@ public class CharConverter {
      */
     public static final int DEFAULT_PIXEL_RESOLUTION = 16;
 
+    //endregion
+
+
+    //region API
 
     /**
      * Renders a given character to a square black & white image (2D array of booleans), with the specified
@@ -54,8 +55,14 @@ public class CharConverter {
         return matrix;
     }
 
+    //endregion
+
+
+    //region PRIVATE METHODS
+
     /**
-     * Generates a BufferedImage for rendering the specified character with the given font and pixel resolution.
+     * Generates a BufferedImage for rendering the specified character with the given font and pixel
+     * resolution.
      *
      * @param c            The character to render.
      * @param fontName     The name of the font to use.
@@ -74,4 +81,5 @@ public class CharConverter {
         return img;
     }
 
+    //endregion
 }
