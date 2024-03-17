@@ -26,34 +26,10 @@ public class ImageBrightnessCalculator {
     private static final float MAX_ASCII = 255;
 
     /**
-     * The color value for white.
-     */
-    private static final int WHITE = 255;
-
-    /**
-     * The base for calculating the closest power of 2.
-     */
-    private static final int BASE_TWO = 2;
-
-    /**
-     * represent the move 1 left of the list index
-     */
-    private static final int LAST_INDEX_MOVE = 1;
-
-    /**
-     * Index of the first character in an array or string.
-     */
-    private static final int FIRST_INDEX = 0;
-
-    /**
      * init a counter value to 0
      */
     private static final int INITIAL_COUNTER = 0;
 
-    /**
-     * constant represent half value divide
-     */
-    private static final int HALF_VAL = 2;
 
     //endregion
 
