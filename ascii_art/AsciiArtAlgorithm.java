@@ -20,7 +20,7 @@ public class AsciiArtAlgorithm {
     /**
      * The parameters controlling the ASCII art generation algorithm.
      */
-    private final AlogithmParameters parameters;
+    private final AlogithmParameters alogithmParameters;
 
     //endregion
 
@@ -30,10 +30,10 @@ public class AsciiArtAlgorithm {
     /**
      * Constructs an AsciiArtAlgorithm instance with the specified parameters.
      *
-     * @param parameters the algorithm parameters controlling image processing and ASCII art generation.
+     * @param alogithmParameters the algorithm parameters controlling image processing and ASCII art generation.
      */
-    public AsciiArtAlgorithm(AlogithmParameters parameters) {
-        this.parameters = parameters;
+    public AsciiArtAlgorithm(AlogithmParameters alogithmParameters) {
+        this.alogithmParameters = alogithmParameters;
     }
 
     /**
@@ -42,7 +42,7 @@ public class AsciiArtAlgorithm {
      * @return a 2D array representing the ASCII art generated from the image.
      */
     public char[][] run() {
-        Pair imageVsResolution = new Pair(parameters.getImage(), parameters.getResolution());
+        Pair imageVsResolution = new Pair(alogithmParameters.getImage(), alogithmParameters.getResolution());
         float[][] brightnessArray;
 
         // Check if brightness array for this image-resolution pair is already computed
@@ -50,8 +50,8 @@ public class AsciiArtAlgorithm {
             brightnessArray = brightnessMap.get(imageVsResolution);
         } else {
             // Compute brightness array for the image at the specified resolution
-            brightnessArray = ImageToBrightnessesFacade.greyBrightnessesByResolution(parameters.getImage(),
-                    parameters.getResolution());
+            brightnessArray = ImageToBrightnessesFacade.greyBrightnessesByResolution(alogithmParameters.getImage(),
+                    alogithmParameters.getResolution());
             // Cache the computed brightness array
             brightnessMap.put(imageVsResolution, brightnessArray);
         }
@@ -61,7 +61,7 @@ public class AsciiArtAlgorithm {
 
 
     //endregion
-    //region PRIVATE METHODS
+    //region PRIVATE METHODS AND CLASSES
 
     /**
      * A utility class representing a pair of an image and a resolution. Used as a key in the brightnessMap
@@ -132,7 +132,7 @@ public class AsciiArtAlgorithm {
         // Convert brightness values to ASCII characters
         for (int i = 0; i < brightnessArray.length; i++) {
             for (int j = 0; j < brightnessArray[i].length; j++) {
-                asciiArt[i][j] = parameters.getCharMatcher().getCharByImageBrightness(brightnessArray[i][j]);
+                asciiArt[i][j] = alogithmParameters.getCharMatcher().getCharByImageBrightness(brightnessArray[i][j]);
             }
         }
 
