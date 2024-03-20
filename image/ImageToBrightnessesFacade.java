@@ -18,7 +18,7 @@ public class ImageToBrightnessesFacade {
     /**
      * Index of the first character in an array or string.
      */
-    private static final int FIRST_INDEX = 0;
+    private static final int ROW = 0;
     //endregion
 
 
@@ -52,7 +52,7 @@ public class ImageToBrightnessesFacade {
      */
     private static float[][] getBrightnessArray(Image[][] images) {
         int height = images.length;
-        int width = images[FIRST_INDEX].length;
+        int width = images[ROW].length;
         float[][] brightnessArray = new float[height][width];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
