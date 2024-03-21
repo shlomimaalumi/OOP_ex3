@@ -70,6 +70,7 @@ public class Shell {
         }
     }
     //endregion
+
     //region PRIVATE METHODS
 
     /**

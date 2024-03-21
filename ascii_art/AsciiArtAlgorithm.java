@@ -61,6 +61,7 @@ public class AsciiArtAlgorithm {
 
 
     //endregion
+
     //region PRIVATE METHODS AND CLASSES
 
     /**
