@@ -3,8 +3,8 @@ package image_char_matching;
 import java.util.*;
 
 /**
- * The SubImgCharMatcher class provides methods to match characters to image brightness values using a custom
- * character set.
+ * The SubImgCharMatcher class provides methods to match characters to image brightness values using a custom character
+ * set.
  */
 public class SubImgCharMatcher {
     //region CONSTANT VARIABLES
@@ -192,8 +192,8 @@ public class SubImgCharMatcher {
     }
 
     /**
-     * Updates the minimum and maximum character brightness values after a character addition. in addition to
-     * updating the mapping of normalized brightness values to characters.
+     * Updates the minimum and maximum character brightness values after a character addition. in addition to updating
+     * the mapping of normalized brightness values to characters.
      *
      * @param c                 The character being added.
      * @param cNormalBrightness The normalized brightness value of the character.

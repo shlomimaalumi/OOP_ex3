@@ -7,8 +7,8 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * A package-private class of the package image representing an image. This class provides methods to read,
- * create, manipulate, and save images.
+ * A package-private class of the package image representing an image. This class provides methods to read, create,
+ * manipulate, and save images.
  *
  * @author Dan Nirel
  */
@@ -43,6 +43,7 @@ public class Image {
     //endregion
 
     //region CONSTRUCTORS
+
     /**
      * Constructs an Image object by reading an image file.
      *
@@ -77,6 +78,7 @@ public class Image {
     //endregion
 
     //region API
+
     /**
      * Compares this image with another object for equality.
      *

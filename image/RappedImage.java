@@ -28,6 +28,7 @@ class RappedImage {
 
 
     //region API
+
     /**
      * Resizes the image to the nearest power of 2.
      *
@@ -47,6 +48,7 @@ class RappedImage {
 
 
     //region Private helper Methods
+
     /**
      * Finds the closest power of 2 for a given number.
      *
@@ -115,8 +117,8 @@ class RappedImage {
 
 
     /**
-     * Resizes the image to the nearest power of 2. modify in place the pixel array to match the new size of
-     * the image.
+     * Resizes the image to the nearest power of 2. modify in place the pixel array to match the new size of the
+     * image.
      *
      * @param image the original image.
      */

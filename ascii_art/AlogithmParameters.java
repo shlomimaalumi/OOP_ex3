@@ -8,8 +8,8 @@ import java.io.IOException;
 import static java.lang.Math.*;
 
 /**
- * The AlgorithmParameters class holds parameters and methods related to ASCII art generation algorithms. It
- * provides functionality for setting resolution, loading images, and accessing character matchers.
+ * The AlgorithmParameters class holds parameters and methods related to ASCII art generation algorithms. It provides
+ * functionality for setting resolution, loading images, and accessing character matchers.
  */
 public class AlogithmParameters {
     //region STATIC VARIABLES
@@ -21,7 +21,8 @@ public class AlogithmParameters {
     /**
      * The default path to the image file.
      */
-    private static final String DEFAULT_PATH = "cat.jpeg";
+    private static final String DEFAULT_PATH = "microsoft.jpg";
+
 
     /**
      * The default resolution for image processing.

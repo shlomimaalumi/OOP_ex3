@@ -11,10 +11,10 @@ import static ascii_art.ShellConstant.*;
 
 
 /**
- * The Shell class represents the command-line interface for interacting with the AsciiArtAlgorithm. It
- * allows users to input various commands to manipulate the ASCII art generation process, change settings,
- * and view the output. The class handles user input and delegates the corresponding actions to the
- * AsciiArtAlgorithm and associated components.
+ * The Shell class represents the command-line interface for interacting with the AsciiArtAlgorithm. It allows users to
+ * input various commands to manipulate the ASCII art generation process, change settings, and view the output. The
+ * class handles user input and delegates the corresponding actions to the AsciiArtAlgorithm and associated
+ * components.
  */
 public class Shell {
 
@@ -179,8 +179,8 @@ public class Shell {
     }
 
     /**
-     * Handles updating the image used for ASCII art generation based on the provided command. If the image
-     * path is valid, it updates the current image; otherwise, it prints an error message.
+     * Handles updating the image used for ASCII art generation based on the provided command. If the image path is
+     * valid, it updates the current image; otherwise, it prints an error message.
      *
      * @param command The command containing the new image path.
      */
@@ -193,8 +193,7 @@ public class Shell {
     }
 
     /**
-     * Handles the execution of an "add" command, which adds characters to the charset used for ASCII art
-     * generation.
+     * Handles the execution of an "add" command, which adds characters to the charset used for ASCII art generation.
      *
      * @param command The command specifying the characters to add.
      * @throws AddException If an error occurs while executing the command.
@@ -208,8 +207,8 @@ public class Shell {
     }
 
     /**
-     * Handles the execution of a "remove" command, which removes characters from the charset used for ASCII
-     * art generation.
+     * Handles the execution of a "remove" command, which removes characters from the charset used for ASCII art
+     * generation.
      *
      * @param command The command specifying the characters to remove.
      * @throws RemoveException If an error occurs while executing the command.
@@ -223,11 +222,11 @@ public class Shell {
     }
 
     /**
-     * Runs a command to add characters to the charset used for ASCII art generation. If the command
-     * specifies a single character, it adds that character to the charset. If the command is "all", it adds
-     * all printable ASCII characters. If the command is "space", it adds the space character. If the command
-     * specifies a range of characters (e.g., "a-z"), it adds all characters in that range. If the command
-     * format is invalid, it prints an error message.
+     * Runs a command to add characters to the charset used for ASCII art generation. If the command specifies a single
+     * character, it adds that character to the charset. If the command is "all", it adds all printable ASCII
+     * characters. If the command is "space", it adds the space character. If the command specifies a range of
+     * characters (e.g., "a-z"), it adds all characters in that range. If the command format is invalid, it prints an
+     * error message.
      *
      * @param command The command specifying the characters to add.
      */
@@ -273,11 +272,11 @@ public class Shell {
     }
 
     /**
-     * Runs a command to remove characters from the charset used for ASCII art generation. If the command
-     * specifies a single character, it removes that character from the charset. If the command is "all", it
-     * removes all printable ASCII characters. If the command is "space", it removes the space character. If
-     * the command specifies a range of characters (e.g., "a-z"), it removes all characters in that range. If
-     * the command format is invalid, it prints an error message.
+     * Runs a command to remove characters from the charset used for ASCII art generation. If the command specifies a
+     * single character, it removes that character from the charset. If the command is "all", it removes all printable
+     * ASCII characters. If the command is "space", it removes the space character. If the command specifies a range of
+     * characters (e.g., "a-z"), it removes all characters in that range. If the command format is invalid, it prints
+     * an error message.
      *
      * @param command The command specifying the characters to remove.
      */

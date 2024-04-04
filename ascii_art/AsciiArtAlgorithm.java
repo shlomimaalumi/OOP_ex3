@@ -6,9 +6,12 @@ import image.ImageToBrightnessesFacade;
 import java.util.HashMap;
 import java.util.Map;
 
+import static image.ImageToBrightnessesFacade.greyBrightnessesByResolution;
+import static java.util.Objects.hash;
+
 /**
- * The AsciiArtAlgorithm class is responsible for generating ASCII art from an image. It uses brightness
- * values calculated from the image and a resolution setting to determine ASCII characters for each pixel.
+ * The AsciiArtAlgorithm class is responsible for generating ASCII art from an image. It uses brightness values
+ * calculated from the image and a resolution setting to determine ASCII characters for each pixel.
  */
 public class AsciiArtAlgorithm {
     //region CLASS VARIABLES
@@ -50,8 +53,8 @@ public class AsciiArtAlgorithm {
             brightnessArray = brightnessMap.get(imageVsResolution);
         } else {
             // Compute brightness array for the image at the specified resolution
-            brightnessArray = ImageToBrightnessesFacade.greyBrightnessesByResolution(alogithmParameters.getImage(),
-                    alogithmParameters.getResolution());
+            brightnessArray = greyBrightnessesByResolution(alogithmParameters.getImage(),
+                                           alogithmParameters.getResolution());
             // Cache the computed brightness array
             brightnessMap.put(imageVsResolution, brightnessArray);
         }
@@ -65,8 +68,8 @@ public class AsciiArtAlgorithm {
     //region PRIVATE METHODS AND CLASSES
 
     /**
-     * A utility class representing a pair of an image and a resolution. Used as a key in the brightnessMap
-     * to cache brightness arrays.
+     * A utility class representing a pair of an image and a resolution. Used as a key in the brightnessMap to cache
+     * brightness arrays.
      *
      * @param image      The image.
      * @param resolution The resolution.
@@ -102,10 +105,9 @@ public class AsciiArtAlgorithm {
         }
 
         /**
-         * Indicates whether some other object is "equal to" this one. This method overrides the default
-         * implementation provided by the {@code Object} class. It checks if the specified object is an
-         * instance of {@code Pair}, and if so, compares the image and resolution fields of both objects for
-         * equality.
+         * Indicates whether some other object is "equal to" this one. This method overrides the default implementation
+         * provided by the {@code Object} class. It checks if the specified object is an instance of {@code Pair}, and
+         * if so, compares the image and resolution fields of both objects for equality.
          *
          * @param obj the reference object with which to compare.
          * @return {@code true} if this object is the same as the obj argument; {@code false} otherwise.
@@ -119,6 +121,15 @@ public class AsciiArtAlgorithm {
             return image.equals(other.image()) && other.resolution() == resolution;
         }
 
+        /**
+         * Returns a hash code value for this Pair instance.
+         *
+         * @return a hash code value for this Pair instance.
+         */
+        @Override
+        public int hashCode() {
+            return hash(image, resolution);
+        }
 
     }
 
@@ -133,7 +144,8 @@ public class AsciiArtAlgorithm {
         // Convert brightness values to ASCII characters
         for (int i = 0; i < brightnessArray.length; i++) {
             for (int j = 0; j < brightnessArray[i].length; j++) {
-                asciiArt[i][j] = alogithmParameters.getCharMatcher().getCharByImageBrightness(brightnessArray[i][j]);
+                asciiArt[i][j] =
+                        alogithmParameters.getCharMatcher().getCharByImageBrightness(brightnessArray[i][j]);
             }
         }
 

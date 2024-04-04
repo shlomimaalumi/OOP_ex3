@@ -6,10 +6,9 @@ import static image.RappedImage.resize;
 
 
 /**
- * A facade class for calculating grayscale brightness values for sub-images of an image.
- * The class provides a single method for calculating grayscale brightness values for each sub-image
- * of the given image with the specified resolution.
- * this class is a facade class that provides a single method for calculating grayscale brightness values
+ * A facade class for calculating grayscale brightness values for sub-images of an image. The class provides a single
+ * method for calculating grayscale brightness values for each sub-image of the given image with the specified
+ * resolution. this class is a facade class that provides a single method for calculating grayscale brightness values
  * for each sub-image of the given image with the specified resolution.
  */
 public class ImageToBrightnessesFacade {
@@ -25,11 +24,10 @@ public class ImageToBrightnessesFacade {
     //region API
 
     /**
-     * Calculates grayscale brightness values for each sub-image of the given image with the specified
-     * resolution.
+     * Calculates grayscale brightness values for each sub-image of the given image with the specified resolution.
      *
-     * @param image       the input image.
-     * @param resolution  the resolution for dividing the image.
+     * @param image      the input image.
+     * @param resolution the resolution for dividing the image.
      * @return a 2D array containing grayscale brightness values for each sub-image.
      */
     public static float[][] greyBrightnessesByResolution(Image image, int resolution) {
@@ -44,6 +42,7 @@ public class ImageToBrightnessesFacade {
     }
     //endregion
     //region PRIVATE METHODS
+
     /**
      * Calculates grayscale brightness values for each image in a 2D array of images.
      *

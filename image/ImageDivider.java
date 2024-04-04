@@ -11,12 +11,12 @@ public class ImageDivider {
      * @return a 2D array of sub-images.
      */
     static Image[][] divideImage(Image image, int resolution) {
-        int resolutionSize = image.getWidth() / resolution;
-        int numOfRows = image.getHeight() / resolutionSize;
+        int subImgWidth = image.getWidth() / resolution;
+        int numOfRows = image.getHeight() / subImgWidth;
         Image[][] subImagesArray = new Image[numOfRows][resolution];
         for (int i = 0; i < numOfRows; i++) {
             for (int j = 0; j < resolution; j++) {
-                subImagesArray[i][j] = getSubImage(image, i, j, resolutionSize);
+                subImagesArray[i][j] = getSubImage(image, i, j, subImgWidth);
             }
         }
         return subImagesArray;
